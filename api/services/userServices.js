@@ -32,10 +32,6 @@ async function createUser(data) {
 	const result = await rules.createRules(data);
 
 	if (result.user_name) {
-		const isUser = await rules.isUser(result.user_name);
-
-		if (!isUser) {
-		}
 		return User.create(result)
 			.then((user) => {
 				return user;

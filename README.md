@@ -22,8 +22,10 @@ npm install sequelize --save
 npm install pg --save
 
 ESTRUTURA DE DIRETÓRIOS:
-api: onde estão os source codes
-config: onde estão os arquivos de configuração
-models: onde estão os modelos
-controllers: onde estão os controllers
-routes: onde estão as rotas
+api: onde estão os source codes;
+config: onde estão os arquivos de configuração;
+models: onde estão os modelos;
+controllers: onde estão os controllers;
+routes: onde estão as rotas;
+rules: onde estão as regras de negócio
+services: onde estão s serviços
