@@ -1,12 +1,12 @@
 const Driver = require("../models/driver");
 
 async function isDriver(cnh_number) {
-	const count = await Driver.count({ where: { cnh_number: cnh_number } });
+	const count = await Driver.count({ where: { cnh_number } });
 	return count !== 0;
 }
 
 async function isId(id) {
-	const count = await Driver.count({ where: { id: id } });
+	const count = await Driver.count({ where: { id } });
 	return count !== 0;
 }
 

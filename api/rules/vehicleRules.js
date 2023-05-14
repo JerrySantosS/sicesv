@@ -2,12 +2,12 @@ const Vehicle = require("../models/vehicle");
 const generalRules = require("./generalRules");
 
 async function isVehicle(renavam) {
-	const count = await Vehicle.count({ where: { renavam: renavam } });
+	const count = await Vehicle.count({ where: { renavam } });
 	return count !== 0;
 }
 
 async function isId(id) {
-	const count = await Vehicle.count({ where: { id: id } });
+	const count = await Vehicle.count({ where: { id } });
 	return count !== 0;
 }
 

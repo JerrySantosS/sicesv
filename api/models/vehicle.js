@@ -47,9 +47,9 @@ const Vehicle = sequelize.define("Vehicle", {
 	},
 });
 
-(async () => {
-	await Vehicle.sync({ alter: true });
-})();
-console.log(Vehicle === sequelize.models.Vehicle);
+// (async () => {
+// 	await Vehicle.sync({ alter: true });
+// })();
+// console.log(Vehicle === sequelize.models.Vehicle);
 
 module.exports = Vehicle;
