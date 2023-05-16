@@ -51,7 +51,7 @@ const Driver = sequelize.define("Driver", {
 Driver.belongsTo(User, { foreignKey: "user_id" });
 
 // (async () => {
-//   await Driver.sync({ alter: true });
+// 	await Driver.sync({ alter: true });
 // })();
 // console.log(Driver === sequelize.models.Driver);
 

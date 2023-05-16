@@ -47,6 +47,8 @@ const Vehicle = sequelize.define("Vehicle", {
 	},
 });
 
+// Vehicle.hasMany(Inspection);
+
 // (async () => {
 // 	await Vehicle.sync({ alter: true });
 // })();

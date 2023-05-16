@@ -1,21 +1,21 @@
-const services = require("../services/userServices");
+const services = require("../services/inspectionServices");
 
-const getUsers = async (req, res) => {
+const getInspections = async (req, res) => {
 	try {
-		const users = await services.getUsers();
-		res.status(200).json(users).end();
+		const inspections = await services.getInspections();
+		res.status(200).json(inspections).end();
 	} catch (err) {
 		res.status(500).json(err).end();
 	}
 };
 
-const getUserById = async (req, res) => {
+const getInspectionById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const user = await services.getUserById(id);
-			res.status(200).json(user).end();
+			const inspection = await services.getInspectionById(id);
+			res.status(200).json(inspection).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
 			res
@@ -29,31 +29,28 @@ const getUserById = async (req, res) => {
 	}
 };
 
-const createUser = async (req, res) => {
+const createInspection = async (req, res) => {
 	try {
-		const user = await services.createUser(req.body);
+		const inspection = await services.createInspection(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
-		res.status(201).send(`User added with user name: ${user.user_name}`).end();
+		res.status(201).send(`Inspection added with name: ${inspection.id}`).end();
 	} catch (err) {
 		//422 Unprocessable Entity
 		//O codigo de resposta HTTP 422 Unprocessable Entity indica que o servidor entende o tipo de
 		//conteúdo da entidade da requisição, e a sintaxe da requisição esta correta,
 		//mas não foi possível processar as instruções presentes.
-		res.status(422).send(`cannot create user: ${err}`).end();
+		res.status(422).send(`cannot create Inspection: ${err}`).end();
 	}
 };
 
-const updateUser = async (req, res) => {
+const updateInspection = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			req.body.id = id;
-			const qtd = await services.updateUser(req.body);
-			res
-				.status(200)
-				.json("Usuário atualizado com sucesso." + qtd)
-				.end();
+			const qtd = await services.updateInspection(req.body);
+			res.status(200).json(`Motorista atualizado com sucesso. ${qtd}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
 			res
@@ -62,17 +59,17 @@ const updateUser = async (req, res) => {
 				.end();
 		}
 	} catch (err) {
-		res.status(422).send(`cannot update user: ${err}`).end();
+		res.status(422).send(`cannot update Inspection: ${err}`).end();
 	}
 };
 
-const deleteUser = async (req, res) => {
+const deleteInspection = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const reslut = await services.deleteUser(id);
-			res.status(200).json("Usuário deletado com sucesso.").end();
+			const reslut = await services.deleteInspection(id);
+			res.status(200).json(`Motorista inativado com sucesso. ${reslut}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
 			res
@@ -81,14 +78,14 @@ const deleteUser = async (req, res) => {
 				.end();
 		}
 	} catch (err) {
-		res.status(422).send(`Cannot delete user: ${err}`).end();
+		res.status(422).send(`Cannot delete Inspection: ${err}`).end();
 	}
 };
 
 module.exports = {
-	getUsers,
-	getUserById,
-	createUser,
-	updateUser,
-	deleteUser,
+	getInspections,
+	getInspectionById,
+	createInspection,
+	updateInspection,
+	deleteInspection,
 };
