@@ -31,7 +31,7 @@ async function getUserById(id) {
 async function createUser(data) {
 	const result = await rules.createRules(data);
 
-	if (result.user_name) {
+	if (result.userName) {
 		return User.create(result)
 			.then((user) => {
 				return user;
@@ -47,7 +47,7 @@ async function createUser(data) {
 async function updateUser(data) {
 	const result = await rules.updateRules(data);
 
-	if (result.user_name) {
+	if (result.userName) {
 		return User.update(result, { where: { id: result.id } })
 			.then((user) => {
 				return user;

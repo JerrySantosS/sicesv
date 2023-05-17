@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
-async function isUser(user_name) {
-	const count = await User.count({ where: { user_name: user_name } });
+async function isUser(userName) {
+	const count = await User.count({ where: { userName } });
 	return count !== 0;
 }
 
@@ -10,13 +10,13 @@ async function isId(id) {
 	return count !== 0;
 }
 
-function rules({ user_name, password, type, active, ...rest }) {
+function rules({ userName, password, type, active, ...rest }) {
 	let issues = [];
 
 	if (
-		typeof user_name !== "string" ||
-		user_name.length < 2 ||
-		user_name.length > 13
+		typeof userName !== "string" ||
+		userName.length < 2 ||
+		userName.length > 13
 	) {
 		issues.push("Name must be a string with between 2 and 13 characters.");
 	}
@@ -33,23 +33,23 @@ function rules({ user_name, password, type, active, ...rest }) {
 	if (issues.length > 0) {
 		throw issues;
 	} else {
-		return { user_name, password, type, active };
+		return { userName, password, type, active };
 	}
 }
 
-async function createRules({ user_name, password, type, active, ...rest }) {
-	if (await isUser(user_name)) {
-		throw `userRules: User with name ${user_name} already exists.`;
+async function createRules({ userName, password, type, active, ...rest }) {
+	if (await isUser(userName)) {
+		throw `userRules: User with name ${userName} already exists.`;
 	} else {
-		return rules({ user_name, password, type, active });
+		return rules({ userName, password, type, active });
 	}
 }
 
-async function updateRules({ id, user_name, password, type, active, ...rest }) {
+async function updateRules({ id, userName, password, type, active, ...rest }) {
 	if (await isId(id)) {
-		const result = rules({ user_name, password, type, active, ...rest });
+		const result = rules({ userName, password, type, active, ...rest });
 
-		if (result.user_name) {
+		if (result.userName) {
 			result.id = id;
 			return result;
 		} else {

@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
 	try {
 		const user = await services.createUser(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
-		res.status(201).send(`User added with user name: ${user.user_name}`).end();
+		res.status(201).send(`User added with user name: ${user.userName}`).end();
 	} catch (err) {
 		//422 Unprocessable Entity
 		//O codigo de resposta HTTP 422 Unprocessable Entity indica que o servidor entende o tipo de

@@ -8,7 +8,7 @@ const User = sequelize.define("User", {
 		autoIncrement: true,
 		allowNull: false,
 	},
-	user_name: {
+	userName: {
 		type: DataTypes.STRING(13),
 		allowNull: false,
 	},
@@ -28,7 +28,7 @@ const User = sequelize.define("User", {
 });
 
 // (async () => {
-//   await User.sync({ force: true });
+// 	await User.sync({ force: true });
 // })();
 
 module.exports = User;

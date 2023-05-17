@@ -9,19 +9,19 @@ const Inspection = sequelize.define("Inspection", {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	exit_date: {
+	exitDate: {
 		type: DataTypes.DATE,
 		allowNull: false,
 	},
-	entry_date: {
+	entryDate: {
 		type: DataTypes.DATE,
 		allowNull: true,
 	},
-	exit_km: {
+	exitKm: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
-	entry_km: {
+	entryKm: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		defaultValue: 0,
@@ -30,27 +30,15 @@ const Inspection = sequelize.define("Inspection", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
-	driver_id: {
-		type: DataTypes.INTEGER,
-		references: {
-			model: Driver,
-			key: "id",
-		},
-	},
-	vehicle_id: {
-		type: DataTypes.INTEGER,
-		references: {
-			model: Vehicle,
-			key: "id",
-		},
-	},
 });
 
-Inspection.belongsTo(Driver, { foreignKey: "driver_id" });
-Inspection.belongsTo(Vehicle, { foreignKey: "vehicle_id" });
+Driver.hasOne(Inspection);
+Vehicle.hasOne(Inspection);
+Inspection.belongsTo(Driver);
+Inspection.belongsTo(Vehicle);
 
 // (async () => {
-// 	await Inspection.sync({ force: true });
+// 	await Inspection.sync({ alter: true });
 // })();
 // console.log(Inspection === sequelize.models.Inspection);
 

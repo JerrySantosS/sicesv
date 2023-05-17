@@ -24,7 +24,7 @@ const Vehicle = sequelize.define("Vehicle", {
 		type: DataTypes.STRING(35),
 		allowNull: false,
 	},
-	manufacture_date: {
+	manufactureDate: {
 		type: DataTypes.DATE,
 		allowNull: false,
 	},
@@ -36,7 +36,7 @@ const Vehicle = sequelize.define("Vehicle", {
 		type: DataTypes.STRING(25),
 		allowNull: false,
 	},
-	body_type: {
+	bodyType: {
 		type: DataTypes.STRING(15),
 		allowNull: false,
 	},
@@ -46,8 +46,6 @@ const Vehicle = sequelize.define("Vehicle", {
 		defaultValue: true,
 	},
 });
-
-// Vehicle.hasMany(Inspection);
 
 // (async () => {
 // 	await Vehicle.sync({ alter: true });

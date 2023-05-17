@@ -16,10 +16,10 @@ function rules({
 	renavam,
 	owner,
 	model,
-	manufacture_date,
+	manufactureDate,
 	capacity,
 	type,
-	body_type,
+	bodyType,
 }) {
 	let issues = [];
 	// validatinos of paca
@@ -39,7 +39,7 @@ function rules({
 		issues.push("Model must be a string between 4 and 35 characters.");
 	}
 
-	if (!generalRules.dateValidate(manufacture_date)) {
+	if (!generalRules.dateValidate(manufactureDate)) {
 		issues.push("Manufacture date must be a valid date.");
 	}
 
@@ -51,7 +51,7 @@ function rules({
 		issues.push("Type must be a string between 2 and 25 characters.");
 	}
 
-	if (!generalRules.stringValidate(body_type, 3, 35)) {
+	if (!generalRules.stringValidate(bodyType, 3, 35)) {
 		issues.push("Body type must be a string between 1 and 35 characters.");
 	}
 
@@ -63,10 +63,10 @@ function rules({
 			renavam,
 			owner,
 			model,
-			manufacture_date,
+			manufactureDate,
 			capacity,
 			type,
-			body_type,
+			bodyType,
 		};
 	}
 }
@@ -76,10 +76,10 @@ async function createRules({
 	renavam,
 	owner,
 	model,
-	manufacture_date,
+	manufactureDate,
 	capacity,
 	type,
-	body_type,
+	bodyType,
 	...rest
 }) {
 	if (await isVehicle(renavam)) {
@@ -90,10 +90,10 @@ async function createRules({
 			renavam,
 			owner,
 			model,
-			manufacture_date,
+			manufactureDate,
 			capacity,
 			type,
-			body_type,
+			bodyType,
 		});
 	}
 }
@@ -104,10 +104,10 @@ async function updateRules({
 	renavam,
 	owner,
 	model,
-	manufacture_date,
+	manufactureDate,
 	capacity,
 	type,
-	body_type,
+	bodyType,
 	...rest
 }) {
 	if (await isId(id)) {
@@ -116,10 +116,10 @@ async function updateRules({
 			renavam,
 			owner,
 			model,
-			manufacture_date,
+			manufactureDate,
 			capacity,
 			type,
-			body_type,
+			bodyType,
 		});
 
 		if (result.paca) {

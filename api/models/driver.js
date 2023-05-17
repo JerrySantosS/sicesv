@@ -13,23 +13,23 @@ const Driver = sequelize.define("Driver", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
-	birth_date: {
+	birthDate: {
 		type: DataTypes.DATE,
 		allowNull: false,
 	},
-	cnh_number: {
+	cnhNumber: {
 		type: DataTypes.STRING(12),
 		allowNull: false,
 	},
-	cnh_category: {
+	cnhCategory: {
 		type: DataTypes.STRING(2),
 		allowNull: false,
 	},
-	cnh_validity: {
+	cnhValidity: {
 		type: DataTypes.DATE,
 		allowNull: false,
 	},
-	exam_validity: {
+	examValidity: {
 		type: DataTypes.DATE,
 		allowNull: false,
 	},
@@ -37,7 +37,7 @@ const Driver = sequelize.define("Driver", {
 		type: DataTypes.STRING(12),
 		allowNull: true,
 	},
-	user_id: {
+	userId: {
 		type: DataTypes.INTEGER,
 		references: {
 			model: User,
@@ -48,10 +48,10 @@ const Driver = sequelize.define("Driver", {
 	},
 });
 
-Driver.belongsTo(User, { foreignKey: "user_id" });
+Driver.belongsTo(User, { foreignKey: "userId" });
 
 // (async () => {
-// 	await Driver.sync({ alter: true });
+// 	await Driver.sync({ force: true });
 // })();
 // console.log(Driver === sequelize.models.Driver);
 

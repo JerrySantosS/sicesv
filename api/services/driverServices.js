@@ -3,6 +3,7 @@ const rules = require("../rules/driverRules");
 const userServices = require("./userServices");
 const errorS = require("./errorServices");
 const User = require("../models/user");
+const Inspection = require("../models/inspection");
 
 async function getDrivers() {
 	return Driver.findAll({ include: User })
@@ -18,7 +19,7 @@ async function getDriverById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return Driver.findOne({ where: { id: id }, include: User })
+		return Driver.findOne({ where: { id: id }, include: { model: Inspection } })
 			.then((driver) => {
 				return driver;
 			})
@@ -34,10 +35,10 @@ async function createDriver(data) {
 	const newDriver = await rules.createRules(data);
 
 	if (newDriver.name) {
-		data.user.user_name = newDriver.cnh_number;
+		data.user.userName = newDriver.cnhNumber;
 		const user = await userServices.createUser(data.user);
 		if (user.id) {
-			newDriver.user_id = user.id;
+			newDriver.userId = user.id;
 
 			return Driver.create(newDriver)
 				.then((driver) => {
@@ -61,7 +62,7 @@ async function updateDriver(data) {
 		const user = await userServices.updateUser(data.user);
 
 		if (user.id) {
-			driver.user_id = user.id;
+			driver.userId = user.id;
 
 			return Driver.update(driver, { where: { id: driver.id } })
 				.then((driver) => {
@@ -84,7 +85,7 @@ async function deleteDriver(id) {
 	if (isId) {
 		return Driver.findOne({ where: { id: id } })
 			.then((driver) => {
-				return userServices.deleteUser(driver.user_id);
+				return userServices.deleteUser(driver.userId);
 			})
 			.catch((err) => {
 				throw "DriverServices.deleteUser: DB error: " + err;

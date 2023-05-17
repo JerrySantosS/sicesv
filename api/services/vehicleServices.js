@@ -1,3 +1,4 @@
+const Item = require("../models/item");
 const Vehicle = require("../models/vehicle");
 const rules = require("../rules/vehicleRules");
 
@@ -15,7 +16,7 @@ async function getVehicleById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return Vehicle.findByPk(id)
+		return Vehicle.findOne({ where: { id: id }, include: { model: Item } })
 			.then((vehicle) => {
 				return vehicle;
 			})

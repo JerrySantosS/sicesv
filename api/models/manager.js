@@ -13,7 +13,7 @@ const Manager = sequelize.define("Manager", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
-	driver_id: {
+	driverId: {
 		type: DataTypes.INTEGER,
 		references: {
 			model: Driver,
@@ -24,10 +24,10 @@ const Manager = sequelize.define("Manager", {
 	},
 });
 
-Manager.belongsTo(Driver, { foreignKey: "driver_id" });
+Manager.belongsTo(Driver, { foreignKey: "driverId" });
 
 // (async () => {
-//   await Manager.sync({ alter: true });
+// 	await Manager.sync({ alter: true });
 // })();
 // console.log(Manager === sequelize.models.Manager);
 

@@ -19,7 +19,7 @@ Inspection.belongsToMany(Item, { through: CheckList, unique: false });
 Item.belongsToMany(Inspection, { through: CheckList, unique: false });
 
 // (async () => {
-// 	await CheckList.sync({ force: true });
+// 	await CheckList.sync({ alter: true });
 // })();
 // console.log(CheckList === sequelize.models.CheckList);
 

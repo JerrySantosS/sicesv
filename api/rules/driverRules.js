@@ -1,7 +1,7 @@
 const Driver = require("../models/driver");
 
-async function isDriver(cnh_number) {
-	const count = await Driver.count({ where: { cnh_number } });
+async function isDriver(cnhNumber) {
+	const count = await Driver.count({ where: { cnhNumber } });
 	return count !== 0;
 }
 
@@ -41,10 +41,10 @@ function cnhNumberAndPhoneValidate(number, info) {
 	}
 }
 
-function cnhCategoryValidate(cnh_category) {
-	if (typeof cnh_category != "string") {
+function cnhCategoryValidate(cnhCategory) {
+	if (typeof cnhCategory != "string") {
 		return "CNH category must be a string.";
-	} else if (cnh_category.length < 1 || cnh_category.length > 3) {
+	} else if (cnhCategory.length < 1 || cnhCategory.length > 3) {
 		return "CNH category must be between 1 and 3 characters.";
 	} else {
 		return null;
@@ -53,11 +53,11 @@ function cnhCategoryValidate(cnh_category) {
 
 function rules({
 	name,
-	birth_date,
-	cnh_number,
-	cnh_category,
-	cnh_validity,
-	exam_validity,
+	birthDate,
+	cnhNumber,
+	cnhCategory,
+	cnhValidity,
+	examValidity,
 	phone,
 	...rest
 }) {
@@ -66,24 +66,24 @@ function rules({
 	if (nameValidate(name)) issues.push(nameValidate(name));
 
 	// validations of birth date
-	if (dateValidate(birth_date))
-		issues.push(dateValidate(birth_date, "Data de nascimento"));
+	if (dateValidate(birthDate))
+		issues.push(dateValidate(birthDate, "Data de nascimento"));
 
 	// validations of cnh number
-	if (cnhNumberAndPhoneValidate(cnh_number, "CNH"))
-		issues.push(cnhNumberAndPhoneValidate(cnh_number, "CNH"));
+	if (cnhNumberAndPhoneValidate(cnhNumber, "CNH"))
+		issues.push(cnhNumberAndPhoneValidate(cnhNumber, "CNH"));
 
 	// validations of cnh category
-	if (cnhCategoryValidate(cnh_category))
-		issues.push(cnhCategoryValidate(cnh_category));
+	if (cnhCategoryValidate(cnhCategory))
+		issues.push(cnhCategoryValidate(cnhCategory));
 
 	// validations of cnh validity
-	if (dateValidate(cnh_validity))
-		issues.push(dateValidate(cnh_validity, "Validade da CNH"));
+	if (dateValidate(cnhValidity))
+		issues.push(dateValidate(cnhValidity, "Validade da CNH"));
 
 	// validations of exam validity
-	if (dateValidate(exam_validity))
-		issues.push(dateValidate(exam_validity, "Exame Toxicológico"));
+	if (dateValidate(examValidity))
+		issues.push(dateValidate(examValidity, "Exame Toxicológico"));
 
 	// validations of phone
 	if (cnhNumberAndPhoneValidate(phone, "Phone"))
@@ -94,11 +94,11 @@ function rules({
 	} else {
 		return {
 			name,
-			birth_date,
-			cnh_number,
-			cnh_category,
-			cnh_validity,
-			exam_validity,
+			birthDate,
+			cnhNumber,
+			cnhCategory,
+			cnhValidity,
+			examValidity,
 			phone,
 		};
 	}
@@ -106,24 +106,24 @@ function rules({
 
 async function createRules({
 	name,
-	birth_date,
-	cnh_number,
-	cnh_category,
-	cnh_validity,
-	exam_validity,
+	birthDate,
+	cnhNumber,
+	cnhCategory,
+	cnhValidity,
+	examValidity,
 	phone,
 	...rest
 }) {
-	if (await isDriver(cnh_number)) {
-		throw `DriverRules: Driver with CNH number: ${cnh_number} already exists. Please, try other.`;
+	if (await isDriver(cnhNumber)) {
+		throw `DriverRules: Driver with CNH number: ${cnhNumber} already exists. Please, try other.`;
 	} else {
 		return rules({
 			name,
-			birth_date,
-			cnh_number,
-			cnh_category,
-			cnh_validity,
-			exam_validity,
+			birthDate,
+			cnhNumber,
+			cnhCategory,
+			cnhValidity,
+			examValidity,
 			phone,
 		});
 	}
@@ -131,11 +131,11 @@ async function createRules({
 
 async function updateRules({
 	name,
-	birth_date,
-	cnh_number,
-	cnh_category,
-	cnh_validity,
-	exam_validity,
+	birthDate,
+	cnhNumber,
+	cnhCategory,
+	cnhValidity,
+	examValidity,
 	phone,
 	id,
 	...rest
@@ -143,11 +143,11 @@ async function updateRules({
 	if (await isId(id)) {
 		const result = rules({
 			name,
-			birth_date,
-			cnh_number,
-			cnh_category,
-			cnh_validity,
-			exam_validity,
+			birthDate,
+			cnhNumber,
+			cnhCategory,
+			cnhValidity,
+			examValidity,
 			phone,
 		});
 

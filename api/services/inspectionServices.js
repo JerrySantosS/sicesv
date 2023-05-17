@@ -13,7 +13,7 @@ async function getInspectionById(id) {
 async function createInspection(data) {
 	return Inspection.create(data)
 		.then((inspection) => {
-			return Inspection;
+			return inspection;
 		})
 		.catch((err) => {
 			throw `Inspection Error: DB Error: ${err}`;
@@ -23,7 +23,7 @@ async function createInspection(data) {
 async function updateInspection(data) {
 	return Inspection.update(data)
 		.then((inspection) => {
-			return Inspection;
+			return inspection;
 		})
 		.catch((err) => {
 			throw `Inspection Error: DB Error: ${err}`;

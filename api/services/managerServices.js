@@ -39,7 +39,7 @@ async function createManager(data) {
 		const driver = await driverServices.createDriver(data.driver);
 
 		if (driver.id) {
-			newManager.driver_id = driver.id;
+			newManager.driverId = driver.id;
 
 			return Manager.create(newManager)
 				.then((manager) => {
