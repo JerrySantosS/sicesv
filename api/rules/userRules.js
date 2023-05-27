@@ -10,7 +10,7 @@ async function isId(id) {
 	return count !== 0;
 }
 
-function rules({ userName, password, type, active, ...rest }) {
+function rules({ userName, password, type, ...rest }) {
 	let issues = [];
 
 	if (
@@ -26,28 +26,25 @@ function rules({ userName, password, type, active, ...rest }) {
 	if (typeof type !== "number" || type < 1 || type > 4) {
 		issues.push("Type must be an integer between 1 and 4.");
 	}
-	if (typeof active !== "boolean") {
-		issues.push("Active must be a boolean value.");
-	}
 
 	if (issues.length > 0) {
 		throw issues;
 	} else {
-		return { userName, password, type, active };
+		return { userName, password, type };
 	}
 }
 
-async function createRules({ userName, password, type, active, ...rest }) {
+async function createRules({ userName, password, type, ...rest }) {
 	if (await isUser(userName)) {
 		throw `userRules: User with name ${userName} already exists.`;
 	} else {
-		return rules({ userName, password, type, active });
+		return rules({ userName, password, type });
 	}
 }
 
-async function updateRules({ id, userName, password, type, active, ...rest }) {
+async function updateRules({ id, userName, password, type, ...rest }) {
 	if (await isId(id)) {
-		const result = rules({ userName, password, type, active, ...rest });
+		const result = rules({ userName, password, type, ...rest });
 
 		if (result.userName) {
 			result.id = id;

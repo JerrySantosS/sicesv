@@ -3,17 +3,21 @@ const sequelize = require("../../config/sequelize");
 const Inspection = require("./inspection");
 const Item = require("./item");
 
-const CheckList = sequelize.define("CheckList", {
-	status: {
-		type: DataTypes.BOOLEAN,
-		allowNull: false,
-		defaultValue: false,
+const CheckList = sequelize.define(
+	"CheckList",
+	{
+		status: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
+		},
+		type: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
 	},
-	type: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
-	},
-});
+	{ paranoid: true }
+);
 
 Inspection.belongsToMany(Item, { through: CheckList, unique: false });
 Item.belongsToMany(Inspection, { through: CheckList, unique: false });

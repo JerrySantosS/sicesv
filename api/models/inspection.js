@@ -3,34 +3,38 @@ const sequelize = require("../../config/sequelize");
 const Driver = require("./driver");
 const Vehicle = require("./vehicle");
 
-const Inspection = sequelize.define("Inspection", {
-	id: {
-		type: DataTypes.INTEGER,
-		autoIncrement: true,
-		primaryKey: true,
+const Inspection = sequelize.define(
+	"Inspection",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
+		exitDate: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+		entryDate: {
+			type: DataTypes.DATE,
+			allowNull: true,
+		},
+		exitKm: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		entryKm: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0,
+		},
+		route: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	},
-	exitDate: {
-		type: DataTypes.DATE,
-		allowNull: false,
-	},
-	entryDate: {
-		type: DataTypes.DATE,
-		allowNull: true,
-	},
-	exitKm: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
-	},
-	entryKm: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
-		defaultValue: 0,
-	},
-	route: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-});
+	{ paranoid: true }
+);
 
 Driver.hasOne(Inspection);
 Vehicle.hasOne(Inspection);
