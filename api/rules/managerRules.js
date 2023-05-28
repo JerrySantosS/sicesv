@@ -5,6 +5,11 @@ async function isId(id) {
 	return count !== 0;
 }
 
+async function isInactiveId(id) {
+	const count = await Manager.count({ where: { id }, paranoid: false });
+	return count !== 0;
+}
+
 function rules(email) {
 	if (
 		typeof email !== "string" ||
@@ -41,4 +46,5 @@ module.exports = {
 	create,
 	update,
 	isId,
+	isInactiveId,
 };

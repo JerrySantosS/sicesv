@@ -1,8 +1,22 @@
 const Item = require("../models/item");
 const rules = require("../rules/itemRules");
+const { Op } = require("sequelize");
 
 async function getAll() {
 	return Item.findAll()
+		.then((items) => {
+			return items;
+		})
+		.catch((err) => {
+			throw `itemServices: DB Error: ${err}`;
+		});
+}
+
+async function getInactive() {
+	return Item.findAll({
+		where: { deletedAt: { [Op.ne]: null } },
+		paranoid: false,
+	})
 		.then((items) => {
 			return items;
 		})
@@ -59,17 +73,25 @@ async function update(data) {
 	}
 }
 
+async function restore(id) {
+	const isId = await rules.isInactiveId(id);
+
+	if (isId) {
+		return Item.restore({ where: { id } }).catch((err) => {
+			throw `itemServices: restore: DB error: ${err}`;
+		});
+	} else {
+		throw `itemServices: id is not valid.`;
+	}
+}
+
 async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return Item.update({ active: false }, { where: { id: id } })
-			.then((item) => {
-				return item;
-			})
-			.catch((err) => {
-				throw `itemServices: DB Error: ${err}`;
-			});
+		return Item.destroy({ where: { id: id } }).catch((err) => {
+			throw `itemServices: DB Error: ${err}`;
+		});
 	} else {
 		throw `itemServices: id is not valid.`;
 	}
@@ -81,4 +103,6 @@ module.exports = {
 	getById,
 	update,
 	remove,
+	getInactive,
+	restore,
 };

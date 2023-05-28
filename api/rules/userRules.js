@@ -6,7 +6,12 @@ async function isUser(userName) {
 }
 
 async function isId(id) {
-	const count = await User.count({ where: { id: id } });
+	const count = await User.count({ where: { id } });
+	return count !== 0;
+}
+
+async function isInactiveId(id) {
+	const count = await User.count({ where: { id }, paranoid: false });
 	return count !== 0;
 }
 
@@ -62,4 +67,5 @@ module.exports = {
 	update,
 	isUser,
 	isId,
+	isInactiveId,
 };

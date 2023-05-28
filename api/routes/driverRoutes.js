@@ -12,5 +12,8 @@ module.exports = (app) => {
 	app.route("/api/drivers/inactive").get(controller.getInactive);
 	// app.route("/api/drivers/inactive/:id").put(controller.restoreInactiveDrivers);
 
-	app.route("/api/drivers/inactive/:id").get(controller.getInactive);
+	app
+		.route("/api/drivers/inactive/:id")
+		.get(controller.getInactive)
+		.put(controller.restore);
 };

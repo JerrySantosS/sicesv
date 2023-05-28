@@ -11,6 +11,11 @@ async function isId(id) {
 	return count !== 0;
 }
 
+async function isInactiveId(id) {
+	const count = await Item.count({ where: { id }, paranoid: false });
+	return count !== 0;
+}
+
 function rules({ name, type, active }) {
 	let issues = [];
 
@@ -56,4 +61,5 @@ module.exports = {
 	update,
 	isItem,
 	isId,
+	isInactiveId,
 };

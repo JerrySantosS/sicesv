@@ -11,6 +11,11 @@ async function isId(id) {
 	return count !== 0;
 }
 
+async function isInactiveId(id) {
+	const count = await Vehicle.count({ where: { id }, paranoid: false });
+	return count !== 0;
+}
+
 function rules({
 	paca,
 	renavam,
@@ -138,4 +143,5 @@ module.exports = {
 	update,
 	isVehicle,
 	isId,
+	isInactiveId,
 };

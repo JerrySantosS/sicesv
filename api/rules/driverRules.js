@@ -10,6 +10,11 @@ async function isId(id) {
 	return count !== 0;
 }
 
+async function isInactiveId(id) {
+	const count = await Driver.count({ where: { id }, paranoid: false });
+	return count !== 0;
+}
+
 function nameValidate(name) {
 	// validations of name
 	if (typeof name !== "string" || name.length < 2 || name.length > 255) {
@@ -167,4 +172,5 @@ module.exports = {
 	update,
 	isDriver,
 	isId,
+	isInactiveId,
 };

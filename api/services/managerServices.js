@@ -1,10 +1,40 @@
 const Driver = require("../models/driver");
 const Manager = require("../models/manager");
+const User = require("../models/user");
 const rules = require("../rules/managerRules");
 const driverServices = require("../services/driverServices");
+const { Op } = require("sequelize");
 
 async function getAll() {
-	return Manager.findAll({ include: { all: true, nested: true } })
+	return Manager.findAll({
+		include: {
+			model: Driver,
+			include: {
+				model: User,
+			},
+		},
+	})
+		.then((managers) => {
+			return managers;
+		})
+		.catch((err) => {
+			throw "managerServices: DB error: " + err;
+		});
+}
+
+async function getInactive() {
+	return Manager.findAll({
+		where: { deletedAt: { [Op.ne]: null } },
+		include: {
+			model: Driver,
+			paranoid: false,
+			include: {
+				model: User,
+				paranoid: false,
+			},
+		},
+		paranoid: false,
+	})
 		.then((managers) => {
 			return managers;
 		})
@@ -19,7 +49,12 @@ async function getById(id) {
 	if (isId) {
 		return Manager.findOne({
 			where: { id: id },
-			include: { model: Driver, nested: true },
+			include: {
+				model: Driver,
+				include: {
+					model: User,
+				},
+			},
 		})
 			.then(async (manager) => {
 				return manager;
@@ -57,11 +92,71 @@ async function create(data) {
 	}
 }
 
-async function update(data) {}
+async function update(data) {
+	const manager = rules.update(data);
+
+	if (manager.id) {
+		const driver = await driverServices.update(data.driver);
+
+		if (driver.id) {
+			manager.driverId = driver.id;
+
+			return Manager.update(manager, { where: { id: manager.id } })
+				.then((result) => {
+					return result;
+				})
+				.catch((err) => {
+					throw `managerServices: DB error: ${err}`;
+				});
+		} else {
+			throw `managerServices: ${driver}`;
+		}
+	} else {
+		throw `managerServices: ${manager}`;
+	}
+}
+
+async function restore(id) {
+	try {
+		const isId = rules.isInactiveId(id);
+
+		if (isId) {
+			await Manager.restore({ where: { id } });
+
+			const manager = await getById(id);
+
+			await driverServices.restore(manager.driverId);
+
+			return manager;
+		} else {
+			throw `managerServices: restore: id is not valid`;
+		}
+	} catch (err) {}
+}
+
+async function remove(id) {
+	return Manager.findOne({ where: { id } })
+		.then(async (manager) => {
+			try {
+				await driverServices.remove(manager.driverId);
+				await Manager.destroy({ where: { id } });
+				return manager;
+			} catch (err) {
+				throw `managerServices: ${err}`;
+			}
+		})
+		.catch((err) => {
+			throw `managerServices: DB error: ${err}`;
+		});
+}
 
 module.exports = {
 	getAll,
+	getById,
+	getInactive,
 	create,
 	update,
 	getById,
+	remove,
+	restore,
 };

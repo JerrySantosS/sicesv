@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const rules = require("../rules/userRules");
 const errorS = require("./errorServices");
+const { Op } = require("sequelize");
 
 async function getAll() {
 	return User.findAll()
@@ -9,6 +10,19 @@ async function getAll() {
 		})
 		.catch((err) => {
 			throw "userServices: " + err;
+		});
+}
+
+async function getInactive() {
+	return User.findAll({
+		where: { deletedAt: { [Op.ne]: null } },
+		paranoid: false,
+	})
+		.then((users) => {
+			return users;
+		})
+		.catch((err) => {
+			throw `userServices: ${err}`;
 		});
 }
 
@@ -60,11 +74,23 @@ async function update(data) {
 	}
 }
 
+async function restore(id) {
+	const isId = await rules.isInactiveId(id);
+
+	if (isId) {
+		return User.restore({ where: { id } }).catch((err) => {
+			throw "UserServices.remove: DB error: " + err;
+		});
+	} else {
+		throw "UserServices: " + errorS.notId();
+	}
+}
+
 async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return User.destroy({ where: { id: id } })
+		return User.destroy({ where: { id } })
 			.then((user) => {
 				return user;
 			})
@@ -79,7 +105,9 @@ async function remove(id) {
 module.exports = {
 	create,
 	getAll,
+	getInactive,
 	getById,
 	update,
+	restore,
 	remove,
 };

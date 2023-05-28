@@ -96,6 +96,25 @@ async function update(data) {
 	}
 }
 
+async function restore(id) {
+	try {
+		const isId = await rules.isInactiveId(id);
+
+		if (isId) {
+			await Driver.restore({ where: { id } });
+			const driver = await getById(id);
+
+			await userServices.restore(driver.userId);
+
+			return driver;
+		} else {
+			throw "driverServices: " + errorS.notId();
+		}
+	} catch (err) {
+		throw err;
+	}
+}
+
 async function remove(id) {
 	const isId = await rules.isId(id);
 
@@ -125,4 +144,5 @@ module.exports = {
 	update,
 	remove,
 	getInactive,
+	restore,
 };

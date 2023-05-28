@@ -9,6 +9,15 @@ const getAll = async (req, res) => {
 	}
 };
 
+const getInactive = async (req, res) => {
+	try {
+		const managers = await services.getInactive();
+		res.status(200).json(managers).end();
+	} catch (err) {
+		res.status(500).json(err).end();
+	}
+};
+
 const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
@@ -66,6 +75,25 @@ const update = async (req, res) => {
 	}
 };
 
+const restore = async (req, res) => {
+	try {
+		const id = parseInt(req.params.id);
+
+		if (id) {
+			const reslut = await services.restore(id);
+			res.status(200).json(`Motorista reativado com sucesso. ${reslut}`).end();
+		} else {
+			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
+			res
+				.status(400)
+				.json("Errro: o parâmetro especificado não é válido.")
+				.end();
+		}
+	} catch (err) {
+		res.status(422).send(`Cannot delete Manager: ${err}`).end();
+	}
+};
+
 const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
@@ -87,8 +115,10 @@ const remove = async (req, res) => {
 
 module.exports = {
 	getAll,
+	getInactive,
 	getById,
 	create,
 	update,
+	restore,
 	remove,
 };

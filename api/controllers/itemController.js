@@ -9,6 +9,15 @@ const getAll = async (req, res) => {
 	}
 };
 
+const getInactive = async (req, res) => {
+	try {
+		const items = await services.getInactive();
+		res.status(200).json(items).end();
+	} catch (err) {
+		res.status(500).json(err).end();
+	}
+};
+
 const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
@@ -52,7 +61,7 @@ const update = async (req, res) => {
 			const qtd = await services.update(req.body);
 			res
 				.status(200)
-				.json("Veículo atualizado com sucesso." + qtd)
+				.json("Item atualizado com sucesso." + qtd)
 				.end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -66,18 +75,37 @@ const update = async (req, res) => {
 	}
 };
 
+const restore = async (req, res) => {
+	try {
+		const id = parseInt(req.params.id);
+
+		if (id) {
+			const reslut = await services.restore(id);
+			res.status(200).json("Item reativado com sucesso.").end();
+		} else {
+			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
+			res
+				.status(400)
+				.json("Erro: o parâmetro especificado não é válido.")
+				.end();
+		}
+	} catch (err) {
+		res.status(422).send(`Cannot restore item: ${err}`).end();
+	}
+};
+
 const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			const reslut = await services.remove(id);
-			res.status(200).json("Veículo deletado com sucesso.").end();
+			res.status(200).json("Item deletado com sucesso.").end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
 			res
 				.status(400)
-				.json("Errro: o parâmetro especificado não é válido.")
+				.json("Erro: o parâmetro especificado não é válido.")
 				.end();
 		}
 	} catch (err) {
@@ -91,4 +119,6 @@ module.exports = {
 	create,
 	update,
 	remove,
+	getInactive,
+	restore,
 };

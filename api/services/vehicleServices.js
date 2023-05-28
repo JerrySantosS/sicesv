@@ -2,9 +2,26 @@ const Item = require("../models/item");
 const Vehicle = require("../models/vehicle");
 const vehicleItemsServices = require("../services/vehicleItemsServices");
 const rules = require("../rules/vehicleRules");
+const { Op } = require("sequelize");
 
 async function getAll() {
-	return Vehicle.findAll()
+	return Vehicle.findAll({
+		include: Item,
+	})
+		.then((vehicles) => {
+			return vehicles;
+		})
+		.catch((err) => {
+			throw `vehicleServices: DB Error: ${err}`;
+		});
+}
+
+async function getInactive() {
+	return Vehicle.findAll({
+		where: { deletedAt: { [Op.ne]: null } },
+		include: Item,
+		paranoid: false,
+	})
 		.then((vehicles) => {
 			return vehicles;
 		})
@@ -98,6 +115,18 @@ async function update(data) {
 	}
 }
 
+async function restore(id) {
+	const isId = await rules.isInactiveId(id);
+
+	if (isId) {
+		return Vehicle.restore({ where: { id } }).catch((err) => {
+			throw `vehicleServices: DB Error: ${err}`;
+		});
+	} else {
+		throw `vehicleServices: id is not valid.`;
+	}
+}
+
 async function remove(id) {
 	const isId = await rules.isId(id);
 
@@ -146,4 +175,6 @@ module.exports = {
 	getById,
 	update,
 	remove,
+	getInactive,
+	restore,
 };
