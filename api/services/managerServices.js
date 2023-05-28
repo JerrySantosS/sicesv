@@ -3,7 +3,7 @@ const Manager = require("../models/manager");
 const rules = require("../rules/managerRules");
 const driverServices = require("../services/driverServices");
 
-async function getManagers() {
+async function getAll() {
 	return Manager.findAll({ include: { all: true, nested: true } })
 		.then((managers) => {
 			return managers;
@@ -13,7 +13,7 @@ async function getManagers() {
 		});
 }
 
-async function getManagerById(id) {
+async function getById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -32,11 +32,11 @@ async function getManagerById(id) {
 	}
 }
 
-async function createManager(data) {
-	const newManager = rules.createRules(data);
+async function create(data) {
+	const newManager = rules.create(data);
 
 	if (newManager.email) {
-		const driver = await driverServices.createDriver(data.driver);
+		const driver = await driverServices.create(data.driver);
 
 		if (driver.id) {
 			newManager.driverId = driver.id;
@@ -57,11 +57,11 @@ async function createManager(data) {
 	}
 }
 
-async function updateManager(data) {}
+async function update(data) {}
 
 module.exports = {
-	getManagers,
-	createManager,
-	updateManager,
-	getManagerById,
+	getAll,
+	create,
+	update,
+	getById,
 };

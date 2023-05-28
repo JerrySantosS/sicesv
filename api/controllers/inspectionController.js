@@ -1,20 +1,20 @@
 const services = require("../services/inspectionServices");
 
-const getInspections = async (req, res) => {
+const getAll = async (req, res) => {
 	try {
-		const inspections = await services.getInspections();
+		const inspections = await services.getAll();
 		res.status(200).json(inspections).end();
 	} catch (err) {
 		res.status(500).json(err).end();
 	}
 };
 
-const getInspectionById = async (req, res) => {
+const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const inspection = await services.getInspectionById(id);
+			const inspection = await services.getById(id);
 			res.status(200).json(inspection).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -29,9 +29,9 @@ const getInspectionById = async (req, res) => {
 	}
 };
 
-const createInspection = async (req, res) => {
+const create = async (req, res) => {
 	try {
-		const inspection = await services.createInspection(req.body);
+		const inspection = await services.create(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
 		res.status(201).send(`Inspection added with name: ${inspection.id}`).end();
 	} catch (err) {
@@ -43,13 +43,13 @@ const createInspection = async (req, res) => {
 	}
 };
 
-const updateInspection = async (req, res) => {
+const update = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			req.body.id = id;
-			const qtd = await services.updateInspection(req.body);
+			const qtd = await services.update(req.body);
 			res.status(200).json(`Motorista atualizado com sucesso. ${qtd}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -63,12 +63,12 @@ const updateInspection = async (req, res) => {
 	}
 };
 
-const deleteInspection = async (req, res) => {
+const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const reslut = await services.deleteInspection(id);
+			const reslut = await services.remove(id);
 			res.status(200).json(`Motorista inativado com sucesso. ${reslut}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -83,9 +83,9 @@ const deleteInspection = async (req, res) => {
 };
 
 module.exports = {
-	getInspections,
-	getInspectionById,
-	createInspection,
-	updateInspection,
-	deleteInspection,
+	getAll,
+	getById,
+	create,
+	update,
+	remove,
 };

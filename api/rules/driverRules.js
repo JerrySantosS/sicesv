@@ -104,7 +104,7 @@ function rules({
 	}
 }
 
-async function createRules({
+async function create({
 	name,
 	birthDate,
 	cnhNumber,
@@ -129,7 +129,7 @@ async function createRules({
 	}
 }
 
-async function updateRules({
+async function update({
 	name,
 	birthDate,
 	cnhNumber,
@@ -163,8 +163,8 @@ async function updateRules({
 }
 
 module.exports = {
-	createRules,
-	updateRules,
+	create,
+	update,
 	isDriver,
 	isId,
 };

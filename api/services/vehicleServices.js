@@ -3,7 +3,7 @@ const Vehicle = require("../models/vehicle");
 const vehicleItemsServices = require("../services/vehicleItemsServices");
 const rules = require("../rules/vehicleRules");
 
-async function getVehicles() {
+async function getAll() {
 	return Vehicle.findAll()
 		.then((vehicles) => {
 			return vehicles;
@@ -13,7 +13,7 @@ async function getVehicles() {
 		});
 }
 
-async function getVehicleById(id) {
+async function getById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -29,8 +29,8 @@ async function getVehicleById(id) {
 	}
 }
 
-async function createVehicle(data) {
-	const result = await rules.createRules(data);
+async function create(data) {
+	const result = await rules.create(data);
 
 	if (result.paca) {
 		return Vehicle.create(result)
@@ -40,9 +40,9 @@ async function createVehicle(data) {
 						vehicleItem.VehicleId = vehicle.id;
 					});
 
-					await vehicleItemsServices.createManyVehicleItems(data.VehicleItems);
+					await vehicleItemsServices.createMany(data.VehicleItems);
 
-					return getVehicleById(vehicle.id);
+					return getById(vehicle.id);
 				} catch (err) {
 					await Vehicle.destroy({ where: { id: vehicle.id } });
 					throw err;
@@ -56,8 +56,8 @@ async function createVehicle(data) {
 	}
 }
 
-async function updateVehicle(data) {
-	const result = await rules.updateRules(data);
+async function update(data) {
+	const result = await rules.update(data);
 
 	if (result.id) {
 		return Vehicle.update(result, { where: { id: result.id } })
@@ -65,6 +65,7 @@ async function updateVehicle(data) {
 				try {
 					let vehicleItems = data.VehicleItems.map((item) => {
 						item.VehicleId = result.id;
+						return item;
 					});
 					// Busca todos os itens cadastrados para o veículo
 					let DBitems = await vehicleItemsServices.getVehicleItemsByVehicle(
@@ -74,18 +75,16 @@ async function updateVehicle(data) {
 					let items = compareArrays(DBitems, vehicleItems);
 
 					if (items.itemsToAdd.length > 0) {
-						await vehicleItemsServices.createManyVehicleItems(items.itemsToAdd);
+						await vehicleItemsServices.createMany(items.itemsToAdd);
 						console.log(items.itemsToAdd);
 					}
 
 					if (items.itemsToDelete.length > 0) {
-						await vehicleItemsServices.deleteManyVehicleItems(
-							items.itemsToDelete
-						);
+						await vehicleItemsServices.removeMany(items.itemsToDelete);
 
 						console.log(items.itemsToDelete);
 					}
-					return getVehicleById(result.id);
+					return getById(result.id);
 				} catch (err) {
 					//	await Vehicle.destroy({ where: { id: vehicle.id } });
 					throw err + "çlçl";
@@ -99,11 +98,11 @@ async function updateVehicle(data) {
 	}
 }
 
-async function deleteVehicle(id) {
+async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return Vehicle.update({ active: false }, { where: { id: id } })
+		return Vehicle.destroy({ where: { id } })
 			.then((vehicle) => {
 				return vehicle;
 			})
@@ -115,23 +114,36 @@ async function deleteVehicle(id) {
 	}
 }
 
-// function used as a auxiliary of updateVehicle
+// function used as a auxiliary of update
 function compareArrays(DBitems, vehicleItems) {
-	let itemsToAdd = vehicleItems.filter(
-		(vehicleItem) =>
-			!DBitems.some((DBitem) => DBitem.ItemId === vehicleItem.ItemId)
-	);
-	let itemsToDelete = DBitems.filter(
-		(DBitem) =>
-			!vehicleItems.some((vehicleItem) => vehicleItem.ItemId === DBitem.ItemId)
-	);
+	let itemsToAdd;
+	let itemsToDelete;
+
+	if (vehicleItems.length === 0) {
+		itemsToAdd = [];
+		itemsToDelete = DBitems;
+	} else if (DBitems.length === 0) {
+		itemsToAdd = vehicleItems;
+		itemsToDelete = [];
+	} else {
+		itemsToAdd = vehicleItems.filter(
+			(vehicleItem) =>
+				!DBitems.some((DBitem) => DBitem.ItemId === vehicleItem.ItemId)
+		);
+		itemsToDelete = DBitems.filter(
+			(DBitem) =>
+				!vehicleItems.some(
+					(vehicleItem) => vehicleItem.ItemId === DBitem.ItemId
+				)
+		);
+	}
 	return { itemsToAdd, itemsToDelete };
 }
 
 module.exports = {
-	getVehicles,
-	createVehicle,
-	getVehicleById,
-	updateVehicle,
-	deleteVehicle,
+	getAll,
+	create,
+	getById,
+	update,
+	remove,
 };

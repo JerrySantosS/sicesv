@@ -2,7 +2,7 @@ const User = require("../models/user");
 const rules = require("../rules/userRules");
 const errorS = require("./errorServices");
 
-async function getUsers() {
+async function getAll() {
 	return User.findAll()
 		.then((users) => {
 			return users;
@@ -12,7 +12,7 @@ async function getUsers() {
 		});
 }
 
-async function getUserById(id) {
+async function getById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -28,8 +28,8 @@ async function getUserById(id) {
 	}
 }
 
-async function createUser(data) {
-	const result = await rules.createRules(data);
+async function create(data) {
+	const result = await rules.create(data);
 
 	if (result.userName) {
 		return User.create(result)
@@ -44,8 +44,8 @@ async function createUser(data) {
 	}
 }
 
-async function updateUser(data) {
-	const result = await rules.updateRules(data);
+async function update(data) {
+	const result = await rules.update(data);
 
 	if (result.userName) {
 		return User.update(result, { where: { id: result.id } })
@@ -60,16 +60,16 @@ async function updateUser(data) {
 	}
 }
 
-async function deleteUser(id) {
+async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
-		return User.update({ active: false }, { where: { id: id } })
+		return User.destroy({ where: { id: id } })
 			.then((user) => {
 				return user;
 			})
 			.catch((err) => {
-				throw "UserServices.deleteUser: DB error: " + err;
+				throw "UserServices.remove: DB error: " + err;
 			});
 	} else {
 		throw "UserServices: " + errorS.notId();
@@ -77,9 +77,9 @@ async function deleteUser(id) {
 }
 
 module.exports = {
-	createUser,
-	getUsers,
-	getUserById,
-	updateUser,
-	deleteUser,
+	create,
+	getAll,
+	getById,
+	update,
+	remove,
 };

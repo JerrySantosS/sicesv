@@ -1,20 +1,20 @@
 const services = require("../services/userServices");
 
-const getUsers = async (req, res) => {
+const getAll = async (req, res) => {
 	try {
-		const users = await services.getUsers();
+		const users = await services.getAll();
 		res.status(200).json(users).end();
 	} catch (err) {
 		res.status(500).json(err).end();
 	}
 };
 
-const getUserById = async (req, res) => {
+const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const user = await services.getUserById(id);
+			const user = await services.getById(id);
 			res.status(200).json(user).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -29,9 +29,9 @@ const getUserById = async (req, res) => {
 	}
 };
 
-const createUser = async (req, res) => {
+const create = async (req, res) => {
 	try {
-		const user = await services.createUser(req.body);
+		const user = await services.create(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
 		res.status(201).send(`User added with user name: ${user.userName}`).end();
 	} catch (err) {
@@ -43,13 +43,13 @@ const createUser = async (req, res) => {
 	}
 };
 
-const updateUser = async (req, res) => {
+const update = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			req.body.id = id;
-			const qtd = await services.updateUser(req.body);
+			const qtd = await services.update(req.body);
 			res
 				.status(200)
 				.json("Usuário atualizado com sucesso." + qtd)
@@ -66,12 +66,12 @@ const updateUser = async (req, res) => {
 	}
 };
 
-const deleteUser = async (req, res) => {
+const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const reslut = await services.deleteUser(id);
+			const reslut = await services.remove(id);
 			res.status(200).json("Usuário deletado com sucesso.").end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -81,14 +81,14 @@ const deleteUser = async (req, res) => {
 				.end();
 		}
 	} catch (err) {
-		res.status(422).send(`Cannot delete user: ${err}`).end();
+		res.status(422).send(`Cannot remove user: ${err}`).end();
 	}
 };
 
 module.exports = {
-	getUsers,
-	getUserById,
-	createUser,
-	updateUser,
-	deleteUser,
+	getAll,
+	getById,
+	create,
+	update,
+	remove,
 };

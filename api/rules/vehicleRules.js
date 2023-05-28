@@ -71,7 +71,7 @@ function rules({
 	}
 }
 
-async function createRules({
+async function create({
 	paca,
 	renavam,
 	owner,
@@ -98,7 +98,7 @@ async function createRules({
 	}
 }
 
-async function updateRules({
+async function update({
 	id,
 	paca,
 	renavam,
@@ -134,8 +134,8 @@ async function updateRules({
 }
 
 module.exports = {
-	createRules,
-	updateRules,
+	create,
+	update,
 	isVehicle,
 	isId,
 };

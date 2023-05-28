@@ -28,7 +28,7 @@ function rules({ name, type, active }) {
 	}
 }
 
-async function createRules({ name, type, active, ...rest }) {
+async function create({ name, type, active, ...rest }) {
 	if (await isItem(name)) {
 		throw `itemRules: Item with name ${name} already exists.`;
 	} else {
@@ -36,7 +36,7 @@ async function createRules({ name, type, active, ...rest }) {
 	}
 }
 
-async function updateRules({ id, name, type, active, ...rest }) {
+async function update({ id, name, type, active, ...rest }) {
 	if (await isId(id)) {
 		const result = rules({ name, type, active });
 
@@ -52,8 +52,8 @@ async function updateRules({ id, name, type, active, ...rest }) {
 }
 
 module.exports = {
-	createRules,
-	updateRules,
+	create,
+	update,
 	isItem,
 	isId,
 };

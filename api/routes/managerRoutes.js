@@ -1,12 +1,11 @@
-module.exports = app => {
-  const controller = app.controllers.managerController;
+module.exports = (app) => {
+	const controller = app.controllers.managerController;
 
-  app.route('/api/managers')
-    .get(controller.getManagers)
-    .post(controller.createManager);
+	app.route("/api/managers").get(controller.getAll).post(controller.create);
 
-  app.route('/api/managers/:id')
-    .get(controller.getManagerById)
-    .delete(controller.deleteManager)
-    .put(controller.updateManager);
-}
+	app
+		.route("/api/managers/:id")
+		.get(controller.getById)
+		.delete(controller.remove)
+		.put(controller.update);
+};

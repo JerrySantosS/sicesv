@@ -4,9 +4,12 @@ const userServices = require("./userServices");
 const errorS = require("./errorServices");
 const User = require("../models/user");
 const Inspection = require("../models/inspection");
+const { Op } = require("sequelize");
 
-async function getDrivers() {
-	return Driver.findAll({ include: User })
+async function getAll() {
+	return Driver.findAll({
+		include: User,
+	})
 		.then((drivers) => {
 			return drivers;
 		})
@@ -15,7 +18,21 @@ async function getDrivers() {
 		});
 }
 
-async function getDriverById(id) {
+async function getInactive() {
+	return Driver.findAll({
+		where: { deletedAt: { [Op.ne]: null } },
+		include: { model: User, paranoid: false },
+		paranoid: false,
+	})
+		.then((drivers) => {
+			return drivers;
+		})
+		.catch((err) => {
+			throw `DriverServices: ${err}`;
+		});
+}
+
+async function getById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -31,12 +48,12 @@ async function getDriverById(id) {
 	}
 }
 
-async function createDriver(data) {
-	const newDriver = await rules.createRules(data);
+async function create(data) {
+	const newDriver = await rules.create(data);
 
 	if (newDriver.name) {
 		data.user.userName = newDriver.cnhNumber;
-		const user = await userServices.createUser(data.user);
+		const user = await userServices.create(data.user);
 		if (user.id) {
 			newDriver.userId = user.id;
 
@@ -55,11 +72,11 @@ async function createDriver(data) {
 	}
 }
 
-async function updateDriver(data) {
-	const driver = await rules.updateRules(data);
+async function update(data) {
+	const driver = await rules.update(data);
 
 	if (driver.name) {
-		const user = await userServices.updateUser(data.user);
+		const user = await userServices.update(data.user);
 
 		if (user.id) {
 			driver.userId = user.id;
@@ -79,13 +96,19 @@ async function updateDriver(data) {
 	}
 }
 
-async function deleteDriver(id) {
+async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
 		return Driver.findOne({ where: { id: id } })
-			.then((driver) => {
-				return userServices.deleteUser(driver.userId);
+			.then(async (driver) => {
+				try {
+					await userServices.remove(driver.userId);
+					await Driver.destroy({ where: { id: driver.id } });
+					return driver;
+				} catch (err) {
+					throw `driverServices: remove: ${err}`;
+				}
 			})
 			.catch((err) => {
 				throw "DriverServices.deleteUser: DB error: " + err;
@@ -96,9 +119,10 @@ async function deleteDriver(id) {
 }
 
 module.exports = {
-	createDriver,
-	getDrivers,
-	getDriverById,
-	updateDriver,
-	deleteDriver,
+	create,
+	getAll,
+	getById,
+	update,
+	remove,
+	getInactive,
 };

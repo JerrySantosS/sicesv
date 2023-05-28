@@ -1,14 +1,11 @@
 module.exports = (app) => {
 	const controller = app.controllers.inspectionController;
 
-	app
-		.route("/api/inspections")
-		.get(controller.getInspections)
-		.post(controller.createInspection);
+	app.route("/api/inspections").get(controller.getAll).post(controller.create);
 
 	app
 		.route("/api/inspections/:id")
-		.get(controller.getInspectionById)
-		.delete(controller.deleteInspection)
-		.put(controller.updateInspection);
+		.get(controller.getById)
+		.delete(controller.remove)
+		.put(controller.update);
 };

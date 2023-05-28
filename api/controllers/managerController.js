@@ -1,20 +1,20 @@
 const services = require("../services/managerServices");
 
-const getManagers = async (req, res) => {
+const getAll = async (req, res) => {
 	try {
-		const managers = await services.getManagers();
+		const managers = await services.getAll();
 		res.status(200).json(managers).end();
 	} catch (err) {
 		res.status(500).json(err).end();
 	}
 };
 
-const getManagerById = async (req, res) => {
+const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const manager = await services.getManagerById(id);
+			const manager = await services.getById(id);
 			res.status(200).json(manager).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -29,9 +29,9 @@ const getManagerById = async (req, res) => {
 	}
 };
 
-const createManager = async (req, res) => {
+const create = async (req, res) => {
 	try {
-		const manager = await services.createManager(req.body);
+		const manager = await services.create(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
 		res
 			.status(201)
@@ -46,13 +46,13 @@ const createManager = async (req, res) => {
 	}
 };
 
-const updateManager = async (req, res) => {
+const update = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			req.body.id = id;
-			const qtd = await services.updateManager(req.body);
+			const qtd = await services.update(req.body);
 			res.status(200).json(`Motorista atualizado com sucesso. ${qtd}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -66,12 +66,12 @@ const updateManager = async (req, res) => {
 	}
 };
 
-const deleteManager = async (req, res) => {
+const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const reslut = await services.deleteManager(id);
+			const reslut = await services.remove(id);
 			res.status(200).json(`Motorista inativado com sucesso. ${reslut}`).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -86,9 +86,9 @@ const deleteManager = async (req, res) => {
 };
 
 module.exports = {
-	getManagers,
-	getManagerById,
-	createManager,
-	updateManager,
-	deleteManager,
+	getAll,
+	getById,
+	create,
+	update,
+	remove,
 };

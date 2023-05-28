@@ -1,20 +1,20 @@
 const services = require("../services/vehicleServices");
 
-const getVehicles = async (req, res) => {
+const getAll = async (req, res) => {
 	try {
-		const vehicles = await services.getVehicles();
+		const vehicles = await services.getAll();
 		res.status(200).json(vehicles).end();
 	} catch (err) {
 		res.status(500).json(err).end();
 	}
 };
 
-const getVehicleById = async (req, res) => {
+const getById = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const vehicle = await services.getVehicleById(id);
+			const vehicle = await services.getById(id);
 			res.status(200).json(vehicle).end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -29,9 +29,9 @@ const getVehicleById = async (req, res) => {
 	}
 };
 
-const createVehicle = async (req, res) => {
+const create = async (req, res) => {
 	try {
-		const vehicle = await services.createVehicle(req.body);
+		const vehicle = await services.create(req.body);
 		// o código HTTP 201 inidica que um conteúdo foi criado com sucesso no servidor
 		res
 			.status(201)
@@ -46,13 +46,13 @@ const createVehicle = async (req, res) => {
 	}
 };
 
-const updateVehicle = async (req, res) => {
+const update = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
 			req.body.id = id;
-			const qtd = await services.updateVehicle(req.body);
+			const qtd = await services.update(req.body);
 			res
 				.status(200)
 				.json("Veículo atualizado com sucesso." + qtd)
@@ -69,12 +69,12 @@ const updateVehicle = async (req, res) => {
 	}
 };
 
-const deleteVehicle = async (req, res) => {
+const remove = async (req, res) => {
 	try {
 		const id = parseInt(req.params.id);
 
 		if (id) {
-			const reslut = await services.deleteVehicle(id);
+			const reslut = await services.remove(id);
 			res.status(200).json("Veículo deletado com sucesso.").end();
 		} else {
 			// 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
@@ -89,9 +89,9 @@ const deleteVehicle = async (req, res) => {
 };
 
 module.exports = {
-	getVehicles,
-	getVehicleById,
-	createVehicle,
-	updateVehicle,
-	deleteVehicle,
+	getAll,
+	getById,
+	create,
+	update,
+	remove,
 };

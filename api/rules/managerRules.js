@@ -18,11 +18,11 @@ function rules(email) {
 	}
 }
 
-function createRules({ email, ...rest }) {
+function create({ email, ...rest }) {
 	return rules(email);
 }
 
-async function updateRules({ id, email, ...rest }) {
+async function update({ id, email, ...rest }) {
 	if (await isId(id)) {
 		const result = rules(email);
 
@@ -38,7 +38,7 @@ async function updateRules({ id, email, ...rest }) {
 }
 
 module.exports = {
-	createRules,
-	updateRules,
+	create,
+	update,
 	isId,
 };

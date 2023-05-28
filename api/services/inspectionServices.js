@@ -2,15 +2,15 @@ const Inspection = require("../models/inspection");
 const CheckList = require("../models/checkList");
 const VehicleItems = require("../models/vehicleItems");
 
-async function getInspections() {
+async function getAll() {
 	return await Inspection.findAll();
 }
 
-async function getInspectionById(id) {
+async function getById(id) {
 	return await Inspection.findByPk(id);
 }
 
-async function createInspection(data) {
+async function create(data) {
 	return Inspection.create(data)
 		.then((inspection) => {
 			return inspection;
@@ -20,7 +20,7 @@ async function createInspection(data) {
 		});
 }
 
-async function updateInspection(data) {
+async function update(data) {
 	return Inspection.update(data)
 		.then((inspection) => {
 			return inspection;
@@ -30,14 +30,14 @@ async function updateInspection(data) {
 		});
 }
 
-async function deleteInspection(id) {
-	return Inspection.delete({ where: { id: id } });
+async function remove(id) {
+	return Inspection.destroy({ where: { id: id } });
 }
 
 module.exports = {
-	getInspections,
-	getInspectionById,
-	createInspection,
-	updateInspection,
-	deleteInspection,
+	getAll,
+	getById,
+	create,
+	update,
+	remove,
 };

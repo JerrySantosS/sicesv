@@ -34,7 +34,7 @@ function rules({ userName, password, type, ...rest }) {
 	}
 }
 
-async function createRules({ userName, password, type, ...rest }) {
+async function create({ userName, password, type, ...rest }) {
 	if (await isUser(userName)) {
 		throw `userRules: User with name ${userName} already exists.`;
 	} else {
@@ -42,7 +42,7 @@ async function createRules({ userName, password, type, ...rest }) {
 	}
 }
 
-async function updateRules({ id, userName, password, type, ...rest }) {
+async function update({ id, userName, password, type, ...rest }) {
 	if (await isId(id)) {
 		const result = rules({ userName, password, type, ...rest });
 
@@ -58,8 +58,8 @@ async function updateRules({ id, userName, password, type, ...rest }) {
 }
 
 module.exports = {
-	createRules,
-	updateRules,
+	create,
+	update,
 	isUser,
 	isId,
 };

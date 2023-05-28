@@ -2,17 +2,17 @@ const Vehicle = require("../models/vehicle");
 const VehicleItems = require("../models/vehicleItems");
 const { rules } = require("../rules/vehicleItemsRules");
 
-async function getVehicleItemsByItem(id) {
+async function getByItem(id) {
 	return await VehicleItems.findAll({ where: { ItemId: id } });
 }
 
-async function getVehicleItemsByVehicle(id) {
+async function getByVehicle(id) {
 	return await VehicleItems.findAll({
 		where: { VehicleId: id },
 	});
 }
 
-async function createVehicleItems(data) {
+async function create(data) {
 	const vehicleItems = await rules(data);
 
 	if (vehicleItems.VehicleId) {
@@ -28,7 +28,7 @@ async function createVehicleItems(data) {
 	}
 }
 
-async function createManyVehicleItems(data) {
+async function createMany(data) {
 	for await (let vehicleItem of data) {
 		try {
 			await rules(vehicleItem);
@@ -42,7 +42,7 @@ async function createManyVehicleItems(data) {
 	}
 }
 
-async function updateVehicleItems(data) {
+async function update(data) {
 	// for await (let vehicleItem of data) {
 	// 	try {
 	// 		await rules(vehicleItem);
@@ -55,13 +55,13 @@ async function updateVehicleItems(data) {
 	// }
 }
 
-async function deleteVehicleItems(data) {
+async function remove(data) {
 	return VehicleItems.destroy({
 		where: { VehicleId: data.VehicleId, ItemId: data.ItemId },
 	});
 }
 
-async function deleteManyVehicleItems(data) {
+async function removeMany(data) {
 	for await (let vehicleItem of data) {
 		VehicleItems.destroy({
 			where: { VehicleId: vehicleItem.VehicleId, ItemId: vehicleItem.ItemId },
@@ -72,11 +72,11 @@ async function deleteManyVehicleItems(data) {
 }
 
 module.exports = {
-	getVehicleItemsByItem,
-	getVehicleItemsByVehicle,
-	createVehicleItems,
-	createManyVehicleItems,
-	updateVehicleItems,
-	deleteVehicleItems,
-	deleteManyVehicleItems,
+	getByItem,
+	getByVehicle,
+	create,
+	createMany,
+	update,
+	remove,
+	removeMany,
 };

@@ -1,7 +1,7 @@
 const Item = require("../models/item");
 const rules = require("../rules/itemRules");
 
-async function getItems() {
+async function getAll() {
 	return Item.findAll()
 		.then((items) => {
 			return items;
@@ -11,7 +11,7 @@ async function getItems() {
 		});
 }
 
-async function getItemById(id) {
+async function getById(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -27,8 +27,8 @@ async function getItemById(id) {
 	}
 }
 
-async function createItem(data) {
-	const result = await rules.createRules(data);
+async function create(data) {
+	const result = await rules.create(data);
 
 	if (result.name) {
 		return Item.create(result)
@@ -43,8 +43,8 @@ async function createItem(data) {
 	}
 }
 
-async function updateItem(data) {
-	const result = await rules.updateRules(data);
+async function update(data) {
+	const result = await rules.update(data);
 
 	if (result.id) {
 		return Item.update(result, { where: { id: result.id } })
@@ -59,7 +59,7 @@ async function updateItem(data) {
 	}
 }
 
-async function deleteItem(id) {
+async function remove(id) {
 	const isId = await rules.isId(id);
 
 	if (isId) {
@@ -76,9 +76,9 @@ async function deleteItem(id) {
 }
 
 module.exports = {
-	getItems,
-	createItem,
-	getItemById,
-	updateItem,
-	deleteItem,
+	getAll,
+	create,
+	getById,
+	update,
+	remove,
 };
