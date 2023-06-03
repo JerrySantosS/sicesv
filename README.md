@@ -29,3 +29,10 @@ controllers: onde estão os controllers;
 routes: onde estão as rotas;
 rules: onde estão as regras de negócio
 services: onde estão s serviços
+
+URLs para acessar a api:
+USER:
+GET /api/users/active - retorna todos os usuários ativos no sistema
+GET /api/users/active/:id - o usuário referente ao id
+POST /api/users/active - envia as informações para o cadastro de um novo usuário
+PUT /api/users/active/:id - envia as informações para atuaçização do usuário referente ao id
