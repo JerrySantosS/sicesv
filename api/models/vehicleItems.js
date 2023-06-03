@@ -9,7 +9,7 @@ Vehicle.belongsToMany(Item, { through: VehicleItems });
 Item.belongsToMany(Vehicle, { through: VehicleItems });
 
 // (async () => {
-// 	await VehicleItems.sync({ alter: true });
+// 	await VehicleItems.sync({ force: true });
 // })();
 // console.log(VehicleItems === sequelize.models.VehicleItems);
 

@@ -93,7 +93,7 @@ async function create(data) {
 }
 
 async function update(data) {
-	const manager = rules.update(data);
+	const manager = await rules.update(data);
 
 	if (manager.id) {
 		const driver = await driverServices.update(data.driver);
@@ -118,7 +118,7 @@ async function update(data) {
 
 async function restore(id) {
 	try {
-		const isId = rules.isInactiveId(id);
+		const isId = await rules.isInactiveId(id);
 
 		if (isId) {
 			await Manager.restore({ where: { id } });
@@ -131,23 +131,31 @@ async function restore(id) {
 		} else {
 			throw `managerServices: restore: id is not valid`;
 		}
-	} catch (err) {}
+	} catch (err) {
+		throw `managerServices: ${err}`;
+	}
 }
 
 async function remove(id) {
-	return Manager.findOne({ where: { id } })
-		.then(async (manager) => {
-			try {
-				await driverServices.remove(manager.driverId);
-				await Manager.destroy({ where: { id } });
-				return manager;
-			} catch (err) {
-				throw `managerServices: ${err}`;
-			}
-		})
-		.catch((err) => {
-			throw `managerServices: DB error: ${err}`;
-		});
+	const isId = await rules.isId(id);
+
+	if (isId) {
+		return Manager.findOne({ where: { id } })
+			.then(async (manager) => {
+				try {
+					await driverServices.remove(manager.driverId);
+					await Manager.destroy({ where: { id } });
+					return manager;
+				} catch (err) {
+					throw `managerServices: ${err}`;
+				}
+			})
+			.catch((err) => {
+				throw `managerServices: DB error: ${err}`;
+			});
+	} else {
+		throw `managerServices: remove: id is not valid`;
+	}
 }
 
 module.exports = {

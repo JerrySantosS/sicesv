@@ -19,11 +19,19 @@ const CheckList = sequelize.define(
 	{ paranoid: true }
 );
 
-Inspection.belongsToMany(Item, { through: CheckList, unique: false });
-Item.belongsToMany(Inspection, { through: CheckList, unique: false });
+Inspection.hasMany(CheckList);
+Item.hasMany(CheckList);
+Inspection.belongsToMany(Item, {
+	through: CheckList,
+	unique: false,
+});
+Item.belongsToMany(Inspection, {
+	through: CheckList,
+	unique: false,
+});
 
 // (async () => {
-// 	await CheckList.sync({ alter: true });
+// 	await CheckList.sync({ force: true });
 // })();
 // console.log(CheckList === sequelize.models.CheckList);
 

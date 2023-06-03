@@ -42,7 +42,7 @@ async function getById(id) {
 				throw `vehicleServices: DB Error: ${err}`;
 			});
 	} else {
-		throw `userServehicleServices: id is not valid.`;
+		throw `vehicleServices: id is not valid.`;
 	}
 }
 

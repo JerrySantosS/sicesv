@@ -42,8 +42,8 @@ Inspection.belongsTo(Driver);
 Inspection.belongsTo(Vehicle);
 
 // (async () => {
-// 	await Inspection.sync({ alter: true });
+// 	await Inspection.sync({ force: true });
 // })();
-// console.log(Inspection === sequelize.models.Inspection);
+// // console.log(Inspection === sequelize.models.Inspection);
 
 module.exports = Inspection;

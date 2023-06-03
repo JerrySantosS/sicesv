@@ -1,7 +1,10 @@
 module.exports = (app) => {
 	const controller = app.controllers.driverController;
 
-	app.route("/api/drivers/").get(controller.getAll).post(controller.create);
+	app
+		.route("/api/drivers/active")
+		.get(controller.getAll)
+		.post(controller.create);
 
 	app
 		.route("/api/drivers/active/:id")
