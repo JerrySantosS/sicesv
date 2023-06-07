@@ -1,0 +1,45 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #006d1f;
+  padding: 0.5em;
+}
+
+.icon {
+  text-decoration: none;
+  color: azure;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon img {
+  margin-right: 4px;
+  color: azure;
+}
+
+.icon :hover {
+  color: rgb(234, 231, 228);
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.item {
+  margin-right: 1em;
+  color: chartreuse;
+}
+
+.item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.item a:hover {
+  color: #ffbb33;
+  cursor: pointer;
+}
