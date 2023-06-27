@@ -1,18 +1,45 @@
-import React from 'react';
-
+import { useContext } from 'react';
 import Container from '../../components/layout/Container/Container';
+import { AppContext } from '../../context/AppContext';
 
 import sicesv from '../../img/sicesv_l.png';
 import styles from './Login.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const submit = (e) => {
+  const navigate = useNavigate();
+  const { token, setToken, user, setUser } = useContext(AppContext);
+
+  async function submit(e) {
     e.preventDefault();
     console.log('submit');
-  };
+
+    const form = e.target;
+    const userName = form.elements.user.value;
+    const password = form.elements.password.value;
+
+    fetch('http://localhost:8080/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userName, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setToken(data.token);
+        setUser(data.user);
+        console.log(data);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <Container customClass={'around'}>
+      {token !== '' && navigate('/')}
       <div className={styles.main}>
         <section className={styles.container}>
           <img src={sicesv} alt="SICESV" />

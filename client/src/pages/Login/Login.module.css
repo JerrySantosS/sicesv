@@ -121,7 +121,7 @@
   }
 }
 
-@media and (max-width: 320px) {
+@media sreen and (max-width: 320px) {
   .container {
     width: 95%;
   }

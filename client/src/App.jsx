@@ -1,15 +1,23 @@
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
-import './App.css';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from './context/AppContext';
+import Container from './components/layout/Container/Container';
 
 function App() {
+  const { token } = useContext(AppContext);
   return (
-    <>
-      {/* <Navbar /> */}
-      <Outlet />
-    </>
+    <div>
+      {token !== 'u' && <Navbar />}
+
+      <Container customClass="min_height">
+        <Outlet />
+      </Container>
+
+      <Footer />
+    </div>
   );
 }
 

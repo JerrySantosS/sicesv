@@ -1,11 +1,16 @@
-import React from "react";
+import React from 'react';
+
+import styles from './Footer.module.css';
 
 function Footer() {
-	return (
-		<div>
-			<p>Hello World!</p>
-		</div>
-	);
+  return (
+    <footer className={styles.footer}>
+      <p>
+        <span>SICESV </span> - Sistema de Controle de Entrada e Saída de
+        Veículos &copy; 2023
+      </p>
+    </footer>
+  );
 }
 
 export default Footer;
