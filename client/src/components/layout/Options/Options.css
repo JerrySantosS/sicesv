@@ -1,0 +1,45 @@
+.options {
+  min-height: 100%;
+  padding: 4% 0;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  border: 2px solid #000;
+  border-radius: 5px;
+  background-color: #e3f6e5;
+}
+
+.options h1 {
+  font-size: 1.5em;
+  width: 100%;
+  text-align: center;
+}
+
+.option {
+  width: 35%;
+  max-height: 40%;
+  background-color: #192115;
+  color: azure;
+  border: none;
+  padding: 5%;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.option:hover {
+  background-color: #159238;
+}
+
+.option svg {
+  font-size: 2.5rem;
+}

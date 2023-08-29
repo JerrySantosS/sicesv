@@ -1,7 +1,8 @@
-import styles from './Register.module.css';
+import Container from '../../components/layout/Container';
+import Options from '../../components/layout/Options';
 
 function Register() {
-  return <div>Register</div>;
+  return <Container customClass="column"></Container>;
 }
 
 export default Register;

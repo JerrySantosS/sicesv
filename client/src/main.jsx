@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App.jsx';
-import './index.css';
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+//context
 import { AppProvider } from './context/AppContext.jsx';
+// components
+import App from './App.jsx';
 import Login from './pages/Login';
-import Home from './pages/Home/Home.jsx';
-import Register from './pages/Register/Register.jsx';
-import Consult from './pages/Consult/Consult.jsx';
-import Report from './pages/Report/Report.jsx';
-import Inspection from './pages/Inspection/Inspection.jsx';
+import Home from './pages/Home';
+import Users from './pages/Users';
+import User from './pages/User';
+import Inspection from './pages/Inspections';
+import Vehicles from './pages/Vehicles';
+import Vehicle from './pages/Vehicle';
+import Items from './pages/Items';
+import Item from './pages/Item';
+import Routes from './pages/Routes';
+// styles
+import './index.css';
 
 const router = createBrowserRouter([
   {
@@ -20,9 +25,13 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home /> },
       { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
-      { path: '/consult', element: <Consult /> },
-      { path: '/report', element: <Report /> },
+      { path: '/users', element: <Users /> },
+      { path: '/user', element: <User /> },
+      { path: '/vehicles', element: <Vehicles /> },
+      { path: '/vehicle', element: <Vehicle /> },
+      { path: '/items', element: <Items /> },
+      { path: '/item', element: <Item /> },
+      { path: '/routes', element: <Routes /> },
       { path: '/inspection', element: <Inspection /> },
     ],
   },
@@ -35,15 +44,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AppProvider>
   </React.StrictMode>
 );
-
-// <coreProvider>
-// <BrowserRouter>
-//   <Routes>
-//     <Route element={<App />}>
-//       <Route path="/" element={<Login />} />
-//       <Route path="/login" element={<Login />} />
-//       {/* <Route path='/' element={<Home />} /> */}
-//     </Route>
-//   </Routes>
-// </BrowserRouter>
-// </coreProvider>

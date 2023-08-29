@@ -8,6 +8,12 @@ npm init -y
 instalação do express:
 npm install express --save
 
+instalação do cors:
+npm install cors --save
+
+instalação do dotenv para gerenciar as variaveis de ambinete:
+npm install dotenv --save
+
 instalação do Consign:
 npm install consign --save
 
@@ -20,6 +26,12 @@ npm install --save-dev nodemon
 instalação do sequelize and the driver for the postgresql database:
 npm install sequelize --save
 npm install pg --save
+
+instalação o bcrypt:
+npm install bcrypt --save
+
+instalação do gerenciador de Tokens
+npm install jsonwebtoken --save
 
 ESTRUTURA DE DIRETÓRIOS:
 api: onde estão os source codes;

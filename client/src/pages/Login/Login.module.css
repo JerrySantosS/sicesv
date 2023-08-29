@@ -1,10 +1,10 @@
 .main {
   display: flex;
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 .container {
-  margin-top: 10%;
+  margin-top: 1rem;
   width: 50%;
   display: flex;
   align-items: center;
@@ -16,37 +16,39 @@
 .form_container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: #d4dfd5;
+  padding: 1rem 0;
+  background-color: #e3f6e5;
   border: 1px solid #000;
   border-radius: 3px;
-  width: 75%;
+  width: 85%;
 }
 
 .form_container button {
-  background-color: #006d1f;
-  color: #fff;
+  background-color: #192115;
+  color: azure;
   font-size: larger;
   font-weight: 500;
   border-radius: 3px;
-  padding: 2%;
+  padding: 0.5rem 0;
   border: none;
-  transition: 0.5s;
+  transition: 0.3s;
   cursor: pointer;
 }
 
 .form_container button:hover {
-  background-color: #0e8a31;
+  background-color: #159238;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
+  width: 100%;
+  border: none;
 }
 
 .form input {
-  padding: 2%;
+  padding: 0.5rem;
 }
 
 .form label {
@@ -55,11 +57,10 @@
 }
 
 .input {
-  width: 100%;
 }
 
 #forgot {
-  margin-top: 5%;
+  margin-bottom: q1em;
 }
 
 .form div {
@@ -109,14 +110,10 @@
 
   .form_container {
     width: 100%;
-    padding: 5%;
   }
 
-  .form_container button {
-    padding: 2%;
-  }
-
-  .form input {
+  .form_container button,
+  input {
     padding: 2%;
   }
 }

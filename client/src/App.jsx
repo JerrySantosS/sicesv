@@ -9,15 +9,14 @@ import Container from './components/layout/Container/Container';
 function App() {
   const { token } = useContext(AppContext);
   return (
-    <div>
+    <Container>
       {token !== 'u' && <Navbar />}
-
-      <Container customClass="min_height">
+      <Container customClass={'min_height'}>
         <Outlet />
       </Container>
 
-      <Footer />
-    </div>
+      {token !== 'u' && <Footer />}
+    </Container>
   );
 }
 

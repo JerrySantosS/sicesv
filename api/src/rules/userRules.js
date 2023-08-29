@@ -17,7 +17,7 @@ async function isInactiveId(id) {
   return count !== 0;
 }
 
-async function rules({ userName, password, type, ...rest }) {
+async function rules({ name, userName, password, type, ...rest }) {
   let issues = [];
 
   if (
@@ -30,8 +30,11 @@ async function rules({ userName, password, type, ...rest }) {
   if (typeof password !== 'string' || password.length < 4) {
     issues.push('Password must be a string with at least 4 characters.');
   }
-  if (typeof type !== 'number' || type < 1 || type > 4) {
-    issues.push('Type must be an integer between 1 and 4.');
+  if (typeof type !== 'string' || type.length < 8 || type.length > 16) {
+    issues.push('Type must be an string between 8 and 16 characters.');
+  }
+  if (typeof name !== 'string' || name.length < 2 || name.length > 255) {
+    issues.push('Name must be a string with between 2 and 255 characters.');
   }
 
   if (issues.length > 0) {
@@ -39,21 +42,21 @@ async function rules({ userName, password, type, ...rest }) {
   } else {
     const salt = await bcrypt.genSalt(10);
     password = await bcrypt.hash(password, salt);
-    return { userName, password, type };
+    return { name, userName, password, type };
   }
 }
 
-async function create({ userName, password, type, ...rest }) {
+async function create({ name, userName, password, type, ...rest }) {
   if (await isUser(userName)) {
     throw `userRules: User with name ${userName} already exists.`;
   } else {
-    return rules({ userName, password, type });
+    return rules({ name, userName, password, type });
   }
 }
 
-async function update({ id, userName, password, type, ...rest }) {
+async function update({ id, name, userName, password, type, ...rest }) {
   if (await isId(id)) {
-    const result = rules({ userName, password, type, ...rest });
+    const result = await rules({ name, userName, password, type, ...rest });
 
     if (result.userName) {
       result.id = id;

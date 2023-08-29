@@ -1,0 +1,95 @@
+.table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  max-height: 85vh;
+  min-width: 320px;
+  max-width: 99%;
+}
+
+.table-header {
+  display: none;
+}
+
+.table td,
+th {
+  border: 1px solid #192115;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #cee7d1;
+}
+
+.table tbody tr {
+  cursor: pointer;
+}
+
+.table tbody tr:hover {
+  background-color: #a0fa9f;
+}
+
+.table th {
+  padding: 0.5rem;
+  background-color: #192115;
+  color: azure;
+}
+
+.table td {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.table tfoot {
+  background-color: #192115;
+}
+
+.table tfoot tr td {
+  padding: 0.8rem 0;
+}
+
+.table tfoot button {
+  display: flex;
+  justify-content: center;
+  width: 65px;
+  margin: 0 auto;
+  border: none;
+  text-align: center;
+  background-color: azure;
+  color: #192115;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.action-buttons button:hover {
+  color: black;
+}
+
+#view:hover {
+  background-color: #78f176;
+}
+
+#create:hover {
+  background-color: yellow;
+  color: black;
+}
+
+#edit:hover {
+  background-color: orange;
+  color: black;
+}
+
+#delete:hover {
+  background-color: red;
+  color: black;
+}
+
+@media screen and (max-width: 780px) {
+  /* .table {
+    font-size: 0.5rem;
+    min-width: 80%;
+  } */
+}

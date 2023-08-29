@@ -18,7 +18,7 @@ function Login() {
     const userName = form.elements.user.value;
     const password = form.elements.password.value;
 
-    fetch('http://localhost:8080/api/login', {
+    fetch('http://192.168.0.5:8080/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function Login() {
       .then((data) => {
         setToken(data.token);
         setUser(data.user);
-        console.log(data);
+        console.log(data + user.name);
         navigate('/');
       })
       .catch((err) => {
@@ -38,7 +38,7 @@ function Login() {
   }
 
   return (
-    <Container customClass={'around'}>
+    <Container customClass={'column'}>
       {token !== '' && navigate('/')}
       <div className={styles.main}>
         <section className={styles.container}>

@@ -1,24 +1,19 @@
 .container {
-  width: 80%;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
+  /* align-items: center; */
   margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .min_height {
   min-height: 90vh;
+  padding: 1% 0;
 }
 
 .start {
   justify-content: flex-start;
-}
-
-.around {
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 95%;
 }
 
 .column {

@@ -1,0 +1,60 @@
+form {
+  border: 1px solid #000;
+  background-color: #e3f6e5;
+  margin: 0 auto;
+  min-width: 30%;
+  padding: 1rem 2rem;
+}
+
+.header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+form input[type='submit'] {
+  width: 25%;
+  color: azure;
+  background-color: #192115;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+form input[type='submit']:hover {
+  background-color: #159238;
+}
+
+.submit-section {
+  display: flex;
+  justify-content: space-around !important;
+  align-items: center;
+}
+
+@media screen and (max-width: 1280px) {
+  form {
+    min-width: 50%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  form {
+    min-width: 60%;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  form {
+    min-width: 75%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  form {
+    min-width: 95%;
+  }
+}
