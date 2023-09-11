@@ -38,6 +38,26 @@ const getById = async (req, res) => {
   }
 };
 
+const getByUserId = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (id) {
+      const manager = await services.getByUserId(id);
+      res.status(200).json(manager).end();
+    } else {
+      // 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
+      res
+        .status(400)
+        .json('Errro: o parâmetro especificado não é válido.')
+        .end();
+    }
+  } catch (err) {
+    // 404 not found. significa que o servidor não encontrou um usuário com o id especificado
+    res.status(404).json(`Erro: ${err}`).end();
+  }
+};
+
 const create = async (req, res) => {
   try {
     const manager = await services.create(req.body);
@@ -117,6 +137,7 @@ module.exports = {
   getAll,
   getInactive,
   getById,
+  getByUserId,
   create,
   update,
   restore,

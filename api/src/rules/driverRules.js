@@ -138,7 +138,7 @@ async function update({
       phone,
     });
 
-    if (result.name) {
+    if (result.cnhNumber) {
       result.id = id;
       return result;
     } else {

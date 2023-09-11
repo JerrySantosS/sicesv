@@ -48,6 +48,16 @@ async function getById(id) {
   }
 }
 
+async function getByUserId(id) {
+  return Driver.findOne({ where: { userId: id }, include: { model: User } })
+    .then((driver) => {
+      return driver;
+    })
+    .catch((err) => {
+      throw 'driverServices: ' + err;
+    });
+}
+
 async function create(data) {
   const newDriver = await rules.create(data);
 
@@ -74,16 +84,14 @@ async function create(data) {
 
 async function update(data) {
   const driver = await rules.update(data);
-
-  if (driver.name) {
+  if (driver.cnhNumber) {
     const user = await userServices.update(data.user);
-
     if (user.id) {
       driver.userId = user.id;
 
       return Driver.update(driver, { where: { id: driver.id } })
-        .then((driver) => {
-          return driver;
+        .then((res) => {
+          return getById(driver.id);
         })
         .catch((err) => {
           `driverServices DB error: ${err}`;
@@ -141,6 +149,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getByUserId,
   update,
   remove,
   getInactive,
