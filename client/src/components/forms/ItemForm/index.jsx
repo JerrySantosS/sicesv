@@ -85,7 +85,6 @@ export default function ItemForm({ types, handleSubmit, data }) {
       </section>
       <section className="submit-section">
         <Submit text="Salvar" />
-        <input type="submit" value="Editar" />
       </section>
     </form>
   );

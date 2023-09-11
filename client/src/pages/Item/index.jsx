@@ -19,7 +19,6 @@ export default function Item() {
   if (location.state) {
     data = location.state.item;
     type = location.state.type;
-    console.log(location.state);
   }
 
   const create = (item) => {

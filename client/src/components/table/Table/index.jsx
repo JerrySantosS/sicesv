@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 export default function Table({ columns, data, options }) {
   const [value, setValue] = useState({});
   const [tableRow, setTRow] = useState();
-  useEffect(() => {}, [data]);
+
   function changeRowColor(clickedRow) {
     // Change row color for table default color
     if (

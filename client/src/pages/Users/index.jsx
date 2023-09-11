@@ -18,7 +18,6 @@ export default function Users() {
     axios.get(`${import.meta.env.VITE_API_URL}/users/active`).then((res) => {
       const users = res.data;
       setData(users);
-      console.error(users);
     });
   }, []);
 
@@ -48,11 +47,13 @@ export default function Users() {
       });
     },
     delete: (user) => {
-      axios
-        .delete(`${import.meta.env.VITE_API_URL}/items/active/${user.id}`)
-        .catch((err) => console.error(err.response));
-
-      setData(user.filter((dataItem) => dataItem.id !== user.id));
+      navigate('/user', {
+        state: {
+          user,
+          type: 'delete',
+        },
+      });
+      setData(data.filter((dataItem) => dataItem.id !== user.id));
     },
   };
 

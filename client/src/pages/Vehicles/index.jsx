@@ -24,23 +24,35 @@ export default function Vehicles() {
   const options = {
     new: () => {
       navigate('/vehicle', {
-        state: '',
-        type: 'new',
+        state: {
+          vehicle: {},
+          type: 'new',
+        },
       });
     },
-    view: (data) => {
+    view: (vehicle) => {
       navigate('/vehicle', {
-        state: data,
-        type: 'view',
+        state: {
+          vehicle,
+          type: 'view',
+        },
       });
     },
-    edit: (data) => {
+    edit: (vehicle) => {
       navigate('/vehicle', {
-        state: data,
-        type: 'view',
+        state: {
+          vehicle,
+          type: 'edit',
+        },
       });
     },
-    delete: (data) => {},
+    delete: (vehicle) => {
+      axios
+        .delete(`${import.meta.env.VITE_API_URL}/vehicles/active/${vehicle.id}`)
+        .catch((err) => console.error(err.response));
+
+      setData(data.filter((dataItem) => dataItem.id !== vehicle.id));
+    },
   };
 
   return (

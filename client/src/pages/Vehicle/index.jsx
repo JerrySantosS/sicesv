@@ -1,138 +1,62 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { FaTruck  } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-// components
-import Input from '../../components/form/Input/Input';
-import Select from '../../components/form/Select/Select';
+// @components
+import VehicleForm from '../../components/forms/VehicleForm';
+
+// importação dos tipos
+import types from './types.mjs';
 
 // styles
 import './style.css';
+import axios from 'axios';
 
 export default function Vehicle() {
+  const navigate = useNavigate();
   const location = useLocation();
 
-  return (
-    <form onSubmit={''}>
-      <div className='header'>
-      <FaTruck /> Veículo
-      </div>
-      <section>
-        <Input type="text" name="paca" text={'Placa'} placeholder="ZZZ-0000" />
+  let data = {};
+  let type = '';
 
-        <Input
-          type="text"
-          name="model"
-          text={'Modelo'}
-          placeholder="Modelo do veículo"
-        />
+  // Setting variables data and type
+  if (location.state) {
+    data = location.state.vehicle;
+    type = location.state.type;
+    console.log(location.state.vehicle);
+  }
 
-        <Input type="date" name="manufacture_date" text={'Ano de Fabricação'} />
+  const create = (vehicle) => {
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/vehicles/active`, vehicle)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.response));
 
-        <Select
-          type="text"
-          name="type"
-          text={'Tipo de Veículo'}
-          options={types.type}
-        />
+    navigate('/vehicles');
+  };
 
-        <Select
-          type="text"
-          name="body_type"
-          text={'Tipo de carroceria'}
-          options={types.bodyType}
-        />
+  const update = (vehicle) => {
+    axios
+      .put(
+        `${import.meta.env.VITE_API_URL}/vehicles/active/${vehicle.id}`,
+        vehicle
+      )
+      .then((res) => {
+        console.log(res);
+        navigate('/vehicles');
+      })
+      .catch((err) => console.log(err.response));
+  };
 
-        <Input
-          type="number"
-          name="capacity"
-          text={'Capacidade'}
-          placeholder="Capacidade máxima do veículo"
-        />
+  function option() {
+    switch (type) {
+      case 'new':
+        return create;
+      case 'edit':
+        return update;
+      default:
+        return create;
+    }
+  }
 
-        <Input
-          type="text"
-          name="renavam"
-          text={'RENAVAM'}
-          placeholder="Número do renavam"
-        />
-
-        <Select
-          type="text"
-          name="owner"
-          text={'Proprietário'}
-          options={types.owner}
-        />
-      </section>
-      <section className='submit-section'>
-        <input type="submit" value="Salvar" />
-        <input type="submit" value="Editar" />
-      </section>
-    </form>
-  );
+  return <VehicleForm types={types} handleSubmit={option()} data={data} />;
 }
-
-const types = {
-  owner: [
-    {
-      id: 1,
-      name: 'Serra Grande Bebidas',
-    },
-    {
-      id: 2,
-      name: 'Transportadora Nova Era',
-    },
-  ],
-  type: [
-    {
-      id: 1,
-      name: '3/4 (VUC)',
-    },
-    {
-      id: 2,
-      name: 'TOCO',
-    },
-    {
-      id: 3,
-      name: 'TRUCK',
-    },
-    {
-      id: 4,
-      name: 'CAVALO MECÂNICO SIMPLES',
-    },
-    {
-      id: 5,
-      name: 'CAVALO MECÂNICO TRUCADO',
-    },
-    {
-      id: 6,
-      name: 'CARRO COMUM',
-    },
-    {
-      id: 7,
-      name: 'MOTOCICLETA',
-    },
-  ],
-  bodyType: [
-    {
-      id: 1,
-      name: 'GRADE DE MADEIRA',
-    },
-    {
-      id: 2,
-      name: 'GRADE DE METAL',
-    },
-    {
-      id: 3,
-      name: 'BAÚ',
-    },
-    {
-      id: 4,
-      name: 'SIDER',
-    },
-    {
-      id: 5,
-      name: 'PLATAFORMA',
-    },
-  ],
-};
