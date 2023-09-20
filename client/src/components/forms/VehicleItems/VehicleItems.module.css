@@ -1,0 +1,40 @@
+.container {
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.container input[type='checkbox'] {
+  margin-right: 0.5rem;
+  transform: scale(1.4);
+}
+
+.container input[type='checkbox']:checked {
+  transform: scale(1.5);
+  background: rgb(63, 212, 113);
+}
+
+.check {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+
+.check:has(input[type='checkbox']:checked) {
+  background-color: rgb(63, 212, 113);
+  text-transform: uppercase;
+}
+
+.check label {
+  width: 100%;
+  height: 100%;
+}
+
+.submit {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}

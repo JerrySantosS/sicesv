@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // @components
@@ -22,8 +22,10 @@ export default function Vehicle() {
   if (location.state) {
     data = location.state.vehicle;
     type = location.state.type;
-    console.log(location.state.vehicle);
   }
+  useEffect(() => {
+    if (type === 'delete') remove(location.state.vehicle);
+  }, []);
 
   const create = (vehicle) => {
     axios
@@ -45,6 +47,15 @@ export default function Vehicle() {
         navigate('/vehicles');
       })
       .catch((err) => console.log(err.response));
+  };
+
+  const remove = (vehicle) => {
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}/vehicles/active/${vehicle.id}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.error(err));
+
+    navigate('/vehicles');
   };
 
   function option() {

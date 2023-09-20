@@ -47,10 +47,12 @@ export default function Vehicles() {
       });
     },
     delete: (vehicle) => {
-      axios
-        .delete(`${import.meta.env.VITE_API_URL}/vehicles/active/${vehicle.id}`)
-        .catch((err) => console.error(err.response));
-
+      navigate('/vehicle', {
+        state: {
+          vehicle,
+          type: 'delete',
+        },
+      });
       setData(data.filter((dataItem) => dataItem.id !== vehicle.id));
     },
   };
