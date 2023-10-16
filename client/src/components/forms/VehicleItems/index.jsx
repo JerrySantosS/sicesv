@@ -9,7 +9,7 @@ import Button from '../../form/Button';
 const VehicleItems = ({ vehicleItems, setVehicleItems, setIsVisible }) => {
   const [hasItems, setHasItems] = useState(true);
   const [text, setText] = useState('');
-  let items = [];
+  const items = [];
 
   useEffect(() => {
     if (vehicleItems.length === 0) {
@@ -54,7 +54,7 @@ const VehicleItems = ({ vehicleItems, setVehicleItems, setIsVisible }) => {
 
   // Oculta o formulário de itens
   function hideForm() {
-    if (hasItems) setVehicleItems(oldItems);
+    // if (hasItems) setVehicleItems(oldItems);
     setIsVisible(true);
   }
 
@@ -91,6 +91,7 @@ const VehicleItems = ({ vehicleItems, setVehicleItems, setIsVisible }) => {
           items.some((item) => item.id == vehicleItem.id)
         );
         setVehicleItems(newItems);
+        setHasItems(false);
       } else {
         setVehicleItems([]);
       }

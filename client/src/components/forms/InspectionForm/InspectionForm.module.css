@@ -1,0 +1,27 @@
+.date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.date p {
+  font-weight: bold;
+}
+
+.date span {
+  font-weight: 500;
+}
+
+.comentario textarea {
+  width: 100%;
+  height: 25vh;
+  margin-bottom: 1rem;
+  padding: 2%;
+  resize: none;
+}
+
+.comentario label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}

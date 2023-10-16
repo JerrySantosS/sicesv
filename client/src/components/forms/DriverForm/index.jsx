@@ -4,6 +4,7 @@ import Select from '../../form/Select/Select';
 
 // styles
 import styles from './DriverForm.module.css';
+
 const DriverForm = ({ types, driver, setDriver }) => {
   function handleOnChange(e) {
     setDriver({ ...driver, [e.target.name]: e.target.value });

@@ -44,7 +44,7 @@
 
 .logo img {
   width: 110px;
-  padding: 5% 0;
+  padding: 2% 0;
 }
 
 .logo a {
@@ -110,16 +110,13 @@
   .logo {
     min-width: 33%;
   }
-  .logo img {
-    margin-left: 1rem;
-  }
 
   .action-buttons {
     min-width: 33%;
   }
   .action-buttons button {
-    margin: 0 auto;
     display: flex;
+    margin: 0 auto;
   }
   .navbar .mobile-menu-icon {
     display: flex;
@@ -127,13 +124,9 @@
     min-width: 33%;
   }
 
-  .mobile-menu-icon button {
+  .navbar .mobile-menu-icon button {
     display: flex;
     margin-right: 1rem;
-  }
-
-  .mobile-menu-icon svg {
-    font-size: 3em;
   }
 
   .nav-list-mobile {

@@ -13,18 +13,26 @@
   font-size: 1.1em;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  /* flex-direction: row; */
   justify-content: center;
   font-weight: 500;
   /* position: relative; */
   /* bottom: 0; */
 }
 
-.footer p {
+.footer div {
   display: flex;
-  align-items: center;
+  width: 100%;
+  justify-content: center;
 }
 
-.footer span {
+.footer div span {
   font-weight: 600;
+  margin-right: 1%;
+}
+
+@media screen and (max-width: 480px) {
+  .footer p {
+    display: none !important;
+  }
 }

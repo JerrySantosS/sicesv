@@ -1,9 +1,7 @@
 .options {
-  min-height: 100%;
   padding: 4% 0;
-  margin-top: 2%;
+  margin: 5% auto auto auto;
   display: flex;
-  flex-direction: flex-start;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -17,6 +15,7 @@
   font-size: 1.5em;
   width: 100%;
   text-align: center;
+  margin-bottom: 5%;
 }
 
 .option {

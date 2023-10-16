@@ -20,7 +20,11 @@ function VehicleForm({ types, data, handleSubmit }) {
   }
 
   function handleOnChange(e) {
-    setVehicle({ ...vehicle, [e.target.name]: e.target.value });
+    if (e.target.name === 'capacity') {
+      setVehicle({ ...vehicle, [e.target.name]: parseInt(e.target.value) });
+    } else {
+      setVehicle({ ...vehicle, [e.target.name]: e.target.value });
+    }
     console.log(vehicle);
   }
 
@@ -32,19 +36,22 @@ function VehicleForm({ types, data, handleSubmit }) {
     console.log(vehicle);
   }
 
+  function handleVehicleItems(vehicleItems) {
+    setVehicleItems(vehicleItems);
+
+    updateData();
+  }
+
   function updateData() {
-    let capacity = parseInt(vehicle.capacity);
     let items = [];
 
     if (vehicleItems.length > 0) {
       vehicleItems.forEach((vehicleItem) =>
         items.push({ ItemId: vehicleItem.id })
       );
-
-      setVehicleItems(items);
     }
 
-    setVehicle({ ...vehicle, capacity, VehicleItems: items });
+    setVehicle({ ...vehicle, VehicleItems: items });
   }
 
   function setType() {
@@ -178,7 +185,7 @@ function VehicleForm({ types, data, handleSubmit }) {
       ) : (
         <VehicleItems
           vehicleItems={vehicleItems}
-          setVehicleItems={setVehicleItems}
+          setVehicleItems={handleVehicleItems}
           setIsVisible={setIsVisible}
         />
       )}

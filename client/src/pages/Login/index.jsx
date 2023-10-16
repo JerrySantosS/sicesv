@@ -5,6 +5,7 @@ import { AppContext } from '../../context/AppContext';
 import sicesv from '../../img/sicesv_l.png';
 import styles from './Login.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
   const navigate = useNavigate();
@@ -17,24 +18,18 @@ function Login() {
     const form = e.target;
     const userName = form.elements.user.value;
     const password = form.elements.password.value;
-
-    fetch('http://192.168.0.5:8080/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userName, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setToken(data.token);
-        setUser(data.user);
-        console.log(data + user.name);
-        navigate('/');
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      let res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
+        userName,
+        password,
       });
+
+      setToken(res.data.token);
+      setUser(res.data.user);
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

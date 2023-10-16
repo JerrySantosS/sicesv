@@ -14,7 +14,7 @@ async function authenticate(req, res) {
   try {
     const user = await User.findOne({
       where: { userName },
-      attributes: ['id', 'userName', 'password', 'type'],
+      attributes: ['id', 'userName', 'name', 'password', 'type'],
     });
 
     if (!user) {

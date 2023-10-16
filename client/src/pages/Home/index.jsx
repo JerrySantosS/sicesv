@@ -14,7 +14,7 @@ function Home() {
   return (
     <div className={styles.home}>
       {/* {token === '' && navigate('/login')} */}
-      <h1>SEJA BEM VINDO AO SICESV: {user.userName}</h1>
+      <h1>SEJA BEM VINDO AO SICESV: {user.name}</h1>
       <Options />
     </div>
   );

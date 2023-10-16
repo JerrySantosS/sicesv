@@ -14,8 +14,9 @@ export default function Vehicles() {
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/vehicles/active').then((res) => {
-      const users = res.data;
-      setData(users);
+      const vehicles = res.data;
+      setData(vehicles);
+      console.log(vehicles);
     });
   }, []);
 

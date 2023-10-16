@@ -1,0 +1,28 @@
+.check_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  gap: 1rem;
+}
+
+.check_container label {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.check,
+.no_check {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  color: #032b0e;
+}
+
+.no_check:hover {
+  background-color: #ff4b4b;
+}
+
+.check svg,
+.no_check svg {
+  font-size: 3rem;
+}

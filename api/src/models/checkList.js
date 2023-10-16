@@ -1,37 +1,38 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/sequelize");
-const Inspection = require("./inspection");
-const Item = require("./item");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../../config/sequelize');
+const Inspection = require('./inspection');
+const Item = require('./item');
 
 const CheckList = sequelize.define(
-	"CheckList",
-	{
-		status: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: false,
-		},
-		type: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
-	},
-	{ paranoid: true }
+  'CheckList',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    type: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  { paranoid: true }
 );
 
-Inspection.hasMany(CheckList);
-Item.hasMany(CheckList);
-Inspection.belongsToMany(Item, {
-	through: CheckList,
-	unique: false,
-});
-Item.belongsToMany(Inspection, {
-	through: CheckList,
-	unique: false,
-});
+// relação de um para muitos entre Inspection e CheckList
+// e entre Item e CheckList
+Inspection.hasOne(CheckList);
+Item.hasOne(CheckList);
+CheckList.belongsTo(Item);
+CheckList.belongsTo(Inspection);
 
 // (async () => {
-// 	await CheckList.sync({ force: true });
+//   await CheckList.sync({ force: true });
 // })();
 // console.log(CheckList === sequelize.models.CheckList);
 

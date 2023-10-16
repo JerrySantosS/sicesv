@@ -7,7 +7,7 @@ import { AppContext } from '../../../context/AppContext';
 
 // icons
 import { IoNotificationsSharp, IoMenu, IoClose } from 'react-icons/io5';
-import { GiExitDoor } from 'react-icons/gi';
+import { GiExitDoor, GiHamburgerMenu } from 'react-icons/gi';
 
 //images
 import sicesv from '../../../img/sicesv_white.png';
@@ -47,7 +47,7 @@ function Navbar() {
             <Link to={'/routes'}>Rotas</Link>
           </li>
           <li className="nav-item">
-            <Link to={'/inspection'}>Inspeção</Link>
+            <Link to={'/inspections'}>Inspeção</Link>
           </li>
         </ul>
       </div>
@@ -76,7 +76,7 @@ function Navbar() {
             }, 100);
           }}
         >
-          {mobile ? <IoClose /> : <IoMenu />}
+          {mobile ? <IoClose /> : <GiHamburgerMenu />}
         </button>
       </div>
     </nav>
