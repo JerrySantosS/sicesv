@@ -10,18 +10,17 @@ module.exports = () => {
   app.set('port', process.env.PORT || 8080);
 
   //MIDDLEWARES
-  app.use(bodyParser.json());
-  app.use(cors());
+  app.use(bodyParser.json()); // converte todos os dados para JSON
+  app.use(cors()); // permite utilizar o localhost
 
-  // require('../api/routes/customerWallets')(app);
-
-  // autoload the scripts from the dependencies
-  consign({ cwd: 'src' })
-    .then('controllers')
-    .then('routes')
-    .then('services')
-    .then('rules')
-    .into(app);
+  // carrega automaticamente os scripts das dependencias
+  consign({ cwd: 'src' }) // define o diretório raiz
+    .then('controllers') // carrega os controllers
+    .then('routes') // carrega as rotas HTTP
+    .then('services') // carrega os serivços
+    .then('rules') // carrega as regras de négocio
+    .into(app); // dentro do arquivo app
+  // que será compartilhado
 
   return app;
 };

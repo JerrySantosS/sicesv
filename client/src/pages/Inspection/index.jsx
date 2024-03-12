@@ -7,10 +7,12 @@ const Inspection = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  let data = {};
   let type = '';
 
   // Setting variables data and type
   if (location.state) {
+    data = location.state.inspection;
     type = location.state.type;
   }
 
@@ -43,9 +45,20 @@ const Inspection = () => {
     }
   };
 
-  const options = { create: create, update: update };
+  function option() {
+    switch (type) {
+      case 'new':
+        return create;
+      case 'edit':
+        return update;
+      default:
+        return create;
+    }
+  }
 
-  return <InspectionForm handleSubmit={options} />;
+  const options = { create, update };
+
+  return <InspectionForm handleSubmit={options} data={data} />;
 };
 
 export default Inspection;

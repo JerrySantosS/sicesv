@@ -29,20 +29,12 @@ export const COLUMNS = {
       Header: 'capacidade',
       accessor: 'capacity',
     },
-    {
-      Header: 'Tipo de carroceria',
-      accessor: 'bodyType',
-    },
-    {
-      Header: 'Proprietário',
-      accessor: 'owner',
-    },
-    {
-      Header: 'Ano de fabricação',
-      accessor: 'manufactureDate',
-      Cell: ({ value }) => {
-        return new Date(value).getFullYear();
-      },
-    },
+    // {
+    //   Header: 'Ano de fabricação',
+    //   accessor: 'manufactureDate',
+    //   Cell: ({ value }) => {
+    //     return new Date(value).getFullYear();
+    //   },
+    // },
   ],
 };

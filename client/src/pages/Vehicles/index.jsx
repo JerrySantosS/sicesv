@@ -13,7 +13,7 @@ export default function Vehicles() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/vehicles/active').then((res) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/vehicles/active`).then((res) => {
       const vehicles = res.data;
       setData(vehicles);
       console.log(vehicles);

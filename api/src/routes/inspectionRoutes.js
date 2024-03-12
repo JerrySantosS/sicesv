@@ -10,4 +10,7 @@ module.exports = (app) => {
     .put(controller.update);
 
   app.route('/api/inspections/open/:id').get(controller.getOpenInspection);
+
+  app.route('/api/inspections/table/view').get(controller.getTableInspection);
+  app.route('/api/inspections/view/:id').get(controller.getViewInspection);
 };

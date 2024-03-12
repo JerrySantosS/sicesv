@@ -11,6 +11,7 @@ import Users from './pages/Users';
 import User from './pages/User';
 import Inspection from './pages/Inspection';
 import Inspections from './pages/Inspections';
+import ViewInspection from './pages/Inspection/ViewInspection';
 import Vehicles from './pages/Vehicles';
 import Vehicle from './pages/Vehicle';
 import Items from './pages/Items';
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: '/route', element: <Route /> },
       { path: '/inspections', element: <Inspections /> },
       { path: '/inspection', element: <Inspection /> },
+      { path: '/view', element: <ViewInspection /> },
     ],
   },
 ]);

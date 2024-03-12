@@ -20,7 +20,7 @@ const getById = async (req, res) => {
       // 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
       res
         .status(400)
-        .json('Errro: o parâmetro especificado não é válido.')
+        .json('Erro: o parâmetro especificado não é válido.')
         .end();
     }
   } catch (err) {
@@ -46,6 +46,34 @@ const getOpenInspection = async (req, res) => {
   } catch (err) {
     // 404 not found. significa que o servidor não encontrou um usuário com o id especificado
     res.status(404).json(`Erro: ${err}`).end();
+  }
+};
+
+const getTableInspection = async (req, res) => {
+  try {
+    const inspections = await services.getTableInspection();
+    res.status(200).json(inspections).end();
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+};
+
+const getViewInspection = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (id) {
+      const inspection = await services.getViewInspection(id);
+      res.status(200).json(inspection).end();
+    } else {
+      // 400 Bad Request Essa resposta significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
+      res
+        .status(400)
+        .json('Errro: o parâmetro especificado não é válido.')
+        .end();
+    }
+  } catch (err) {
+    res.status(500).json(err).end();
   }
 };
 
@@ -108,6 +136,8 @@ module.exports = {
   getAll,
   getById,
   getOpenInspection,
+  getTableInspection,
+  getViewInspection,
   create,
   update,
   remove,

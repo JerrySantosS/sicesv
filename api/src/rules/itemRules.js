@@ -16,17 +16,17 @@ async function isInactiveId(id) {
   return count !== 0;
 }
 
+// verifica se os dados estão dentro das regras de negócio
 function rules({ name, type, area }) {
   let issues = [];
 
   if (!generalRules.stringValidate(name, 2, 50))
-    issues.push('Name must be between 2 and 50 characters');
-
+    issues.push('Um nome deve ter entre 2 e 50 caracteres');
   if (!generalRules.stringValidate(type, 2, 50))
-    issues.push('Type must be a number');
+    issues.push('Um tipo deve ter entre 2 e 50 caracteres');
 
   if (!generalRules.stringValidate(area, 2, 50))
-    issues.push('area must be a boolean');
+    issues.push('Uma area deve ter entre 2 e 50 caracteres');
 
   if (issues.length > 0) {
     throw issues;

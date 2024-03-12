@@ -29,11 +29,6 @@ const Inspection = sequelize.define(
       allowNull: true,
       defaultValue: 0,
     },
-    comment: {
-      type: DataTypes.STRING(150),
-      allowNull: true,
-      defaultValue: '',
-    },
   },
   { paranoid: true }
 );

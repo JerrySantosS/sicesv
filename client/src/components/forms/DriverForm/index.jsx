@@ -36,19 +36,19 @@ const DriverForm = ({ types, driver, setDriver }) => {
   return (
     <section className={styles.driver}>
       <Input
+        type="date"
+        name="birthDate"
+        text={'Data de Nascimento'}
+        handleOnChange={handleOnChange}
+        value={setDate(driver.birthDate)}
+      />
+      <Input
         type="text"
         name="cnhNumber"
         text={'Número da CNH'}
         placeholder="Número da CNH"
         handleOnChange={handleOnChange}
         value={driver.cnhNumber || ''}
-      />
-      <Input
-        type="date"
-        name="birthDate"
-        text={'Data de Nascimento'}
-        handleOnChange={handleOnChange}
-        value={setDate(driver.birthDate)}
       />
       <Input
         type="date"

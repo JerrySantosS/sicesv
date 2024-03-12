@@ -1,19 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/sequelize');
+const { DataTypes } = require('sequelize'); // importa os tipos de dados do banco
+const sequelize = require('../../config/sequelize'); // importa a conexão com o banco
 
+// definição do model
 const User = sequelize.define(
-  'User',
+  'User', // nome do model
   {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
+      // definie a coluna id
+      type: DataTypes.INTEGER, // tipo inteiro
+      primaryKey: true, // chave primária
+      autoIncrement: true, // incremento automático
+      allowNull: false, // não pode ser nulo
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: '',
+      defaultValue: '', // valor padrão ''
     },
     userName: {
       type: DataTypes.STRING(13),

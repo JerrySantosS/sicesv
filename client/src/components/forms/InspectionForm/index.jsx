@@ -13,28 +13,33 @@ import CheckListForm from '../CheckListForm';
 import styles from './InspectionForm.module.css';
 import { AppContext } from '../../../context/AppContext';
 
-const InspectionForm = ({ handleSubmit }) => {
+const InspectionForm = ({ handleSubmit, data }) => {
+  const navigate = useNavigate();
+
   const { user } = useContext(AppContext);
   const [routes, setRoutes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [vehicle, setVehicle] = useState({});
   const [driver, setDriver] = useState({});
   const [isVisible, setIsVisible] = useState(false);
-  const [exitDate, setExitDate] = useState(new Date());
-  const [entryDate, setEntryDate] = useState(null);
-  const [inspection, setInspection] = useState({
-    exitDate: new Date(),
-    entryDate: null,
-    exitKm: null,
-    entryKm: null,
-    RouteId: null,
-    DriverId: null,
-    VehicleId: null,
-    comment: null,
-    CheckLists: null,
-  });
-
-  const navigate = useNavigate();
+  const [exitDate, setExitDate] = useState(
+    data.exitDate ? new Date(data.exitDate) : new Date()
+  );
+  const [entryDate, setEntryDate] = useState(
+    data.entryDate ? new Date(data.exitDate) : null
+  );
+  const [inspection, setInspection] = useState(
+    (data.id && data) || {
+      exitDate: new Date(),
+      entryDate: null,
+      exitKm: null,
+      entryKm: null,
+      RouteId: null,
+      DriverId: null,
+      VehicleId: null,
+      CheckLists: null,
+    }
+  );
 
   const getApiData = async (name) => {
     try {
@@ -59,56 +64,58 @@ const InspectionForm = ({ handleSubmit }) => {
       setRoutes(res[0]);
       setVehicles(res[1]);
 
-      // pegar o id de motorista pelo id de usuário
-      if (user.type == 'Motorista' || user.type == 'Gestor de Frotas') {
-        try {
-          // Busca na api um motorista através do id de usuário
-          let drvr = await axios.get(
-            `${import.meta.env.VITE_API_URL}/drivers/user/${user.id}`
-          );
-          setDriver(drvr.data);
-          // console.log(drvr);
-          // vendo se existe alguma inspeção	em aberto
-          let inspctn = await axios.get(
-            `${import.meta.env.VITE_API_URL}/inspections/open/${drvr.data.id}`
-          );
+      if (!data.id) {
+        if (user.type == 'Motorista' || user.type == 'Gestor de Frotas') {
+          try {
+            // Busca na api um motorista através do id de usuário
+            let drvr = await axios.get(
+              `${import.meta.env.VITE_API_URL}/drivers/user/${user.id}`
+            );
+            setDriver(drvr.data);
+            // vendo se existe alguma inspeção em aberto
+            let inspctn = await axios.get(
+              `${import.meta.env.VITE_API_URL}/inspections/open/${drvr.data.id}`
+            );
 
-          // Se exitir uma data de saída, então alguns ajustes devem ser feitos:
-          if (inspctn.data != null && inspctn.data.exitDate) {
-            // setta a data de chegada
-            let newDate = new Date();
-            setEntryDate(newDate);
-            setInspection({ ...inspctn.data, entryDate: newDate });
+            // Se exitir uma data de saída, então alguns ajustes devem ser feitos:
+            if (inspctn.data != null && inspctn.data.exitDate) {
+              // setta a data de chegada
+              let newDate = new Date();
+              setEntryDate(newDate);
+              setInspection({ ...inspctn.data, entryDate: newDate });
 
-            // setta o state exitDate com a data de saída do BD
-            setExitDate(new Date(inspctn.data.exitDate));
-          } else {
-            console.log(':)');
-            setInspection({ ...inspection, DriverId: drvr.data.id });
+              // setta o state exitDate com a data de saída do BD
+              setExitDate(new Date(inspctn.data.exitDate));
+            } else {
+              console.log(':)');
+              setInspection({ ...inspection, DriverId: drvr.data.id });
+            }
+          } catch (err) {
+            console.error(err.message);
+          } finally {
+            if (inspection.VehicleId)
+              setVehicle(() => {
+                return vehicles.find((v) => v.id === inspection.VehicleId);
+              });
           }
-        } catch (err) {
-          console.error(err.message);
-        } finally {
-          if (inspection.VehicleId)
-            setVehicle(() => {
-              return vehicles.find((v) => v.id === inspection.VehicleId);
-            });
+        } else {
+          alert('Você não têm acesso a essa funcionalidade.');
+          navigate('/login');
         }
       } else {
-        alert('Você não têm acesso a essa funcionalidade.');
-        navigate('/login');
+        let inspctn = await axios.get(
+          `${import.meta.env.VITE_API_URL}/inspections/${data.id}`
+        );
+        setInspection(inspctn.data);
       }
     })();
   }, []);
 
   function submit(e) {
     e.preventDefault();
-    if (inspection.comment.length < 1 || !inspection.comment) {
-      let cmmt = '';
-      setInspection({ ...inspection, comment: cmmt });
-    }
 
-    if (inspection.entryDate) {
+    console.log(inspection);
+    if (inspection.entryDate || data.id) {
       handleSubmit.update(inspection);
     } else {
       handleSubmit.create(inspection);
@@ -147,10 +154,10 @@ const InspectionForm = ({ handleSubmit }) => {
   function handleVehicle(e) {
     setInspection({
       ...inspection,
-      VehicleId: e.target.selectedIndex,
+      VehicleId: parseInt(e.target.value),
     });
 
-    setVehicle(findVehicle(e.target.selectedIndex));
+    setVehicle(findVehicle(e.target.value));
   }
   // converte o objeto vehicle para o formato do Select
   function parseVehicle() {
@@ -260,7 +267,7 @@ const InspectionForm = ({ handleSubmit }) => {
               handleInspection={handleInspection}
               vehicle={findVehicle(inspection.VehicleId)}
             />
-            <div className={styles.comentario}>
+            {/* <div className={styles.comentario}>
               <label htmlFor="comentario">Comentário:</label>
               <textarea
                 type="text"
@@ -271,13 +278,13 @@ const InspectionForm = ({ handleSubmit }) => {
                 cols={30}
                 value={inspection.comment}
               />
-            </div>
+            </div> */}
           </>
         )}
       </section>
       <section className="submit-section">
         <Button
-          text={!isVisible ? 'Ir para o Check List' : 'Voltar'}
+          text={!isVisible ? 'Ir para o Checklist' : 'Voltar'}
           onClick={() => {
             setIsVisible(!isVisible);
           }}

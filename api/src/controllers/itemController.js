@@ -1,10 +1,17 @@
+// importa o arquivo de serviços
 const services = require('../services/itemServices');
 
+// função que trata a solicitação do cliente
+// para que todos os itens sejam enviados
 const getAll = async (req, res) => {
   try {
+    // chama a função dos serviços que
+    // busca as informações no banco
     const items = await services.getAll();
+    // responde ao cliente com as informações
     res.status(200).json(items).end();
   } catch (err) {
+    // responde em caso de erro
     res.status(500).json(err).end();
   }
 };

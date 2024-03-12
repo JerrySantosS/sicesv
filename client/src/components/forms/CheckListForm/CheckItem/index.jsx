@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
 
 // styles
@@ -6,39 +6,49 @@ import styles from './CheckItem.module.css';
 
 const CheckItem = ({ item, handleCheckLists }) => {
   const [checked, setChecked] = useState(undefined);
+  const [checkItem, setCheckItem] = useState({
+    ItemId: item.id,
+    status: undefined,
+    comment: '',
+  });
+  const commentRef = useRef('');
 
-  // Sempre que o state checked é atualizado, a função handleCheckList
-  // é chamada para modificar, ou adicionar, o valor do checkItem no state
-  // ChecckList
-  useEffect(() => {
-    let checkItem = { ItemId: item.id };
-    if (checked != undefined) {
-      if (checked % 2 === 0) {
-        checkItem.status = true;
-      } else if (checked % 2 === 1) {
-        checkItem.status = false;
-      }
-      handleCheckLists(checkItem);
+  const handleOnChange = () => {
+    setCheckItem({ ...checkItem, comment: commentRef.current.value });
+    handleCheckLists({ ...checkItem, comment: commentRef.current.value });
+  };
+
+  const handleOnClick = (value) => {
+    if (value % 2 === 1) {
+      setCheckItem({ ...checkItem, status: false });
+      handleCheckLists({ ...checkItem, status: false });
+    } else {
+      setCheckItem({ ...checkItem, status: true, comment: '' });
+      handleCheckLists({ ...checkItem, status: true, comment: '' });
     }
-  }, [checked]);
+  };
 
   // gerencia o botão de não OK do checkItem
-  const handleClose = (e) => {
+  const handleClose = () => {
     if (checked === undefined) {
       setChecked(1);
+      handleOnClick(1);
     } else {
       setChecked((prev) => {
+        handleOnClick(prev + 1);
         return prev + 1;
       });
     }
   };
 
   // gerencia o botão de OK no checkItem
-  const handleCheck = (e) => {
+  const handleCheck = () => {
     if (checked === undefined) {
       setChecked(2);
+      handleOnClick(2);
     } else {
       setChecked((prev) => {
+        handleOnClick(prev + 1);
         return prev + 1;
       });
     }
@@ -54,6 +64,7 @@ const CheckItem = ({ item, handleCheckLists }) => {
       >
         <AiOutlineCheckSquare />
       </button>
+
       <button
         type="button"
         style={checked % 2 == 1 ? { backgroundColor: '#ff4b4b' } : {}}
@@ -62,7 +73,20 @@ const CheckItem = ({ item, handleCheckLists }) => {
       >
         <AiOutlineCloseSquare />
       </button>
+
       <label htmlFor={item.id}>{item.name}</label>
+      {checked % 2 == 1 && (
+        <textarea
+          type="text"
+          name="comment"
+          placeholder="Descreva as irregularidades encontradas no veículo"
+          ref={commentRef}
+          onChange={handleOnChange}
+          rows={2}
+          cols={25}
+          value={checkItem.comment}
+        />
+      )}
     </div>
   );
 };

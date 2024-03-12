@@ -20,13 +20,18 @@ const CheckList = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    comment: {
+      type: DataTypes.STRING(150),
+      allowNull: true,
+      defaultValue: '',
+    },
   },
   { paranoid: true }
 );
 
 // relação de um para muitos entre Inspection e CheckList
 // e entre Item e CheckList
-Inspection.hasOne(CheckList);
+Inspection.hasMany(CheckList);
 Item.hasOne(CheckList);
 CheckList.belongsTo(Item);
 CheckList.belongsTo(Inspection);

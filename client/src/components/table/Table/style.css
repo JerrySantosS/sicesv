@@ -87,9 +87,14 @@ th {
   color: black;
 }
 
-@media screen and (max-width: 780px) {
-  /* .table {
-    font-size: 0.5rem;
-    min-width: 80%;
-  } */
+@media screen and (max-width: 240px) {
+  .table {
+    background-color: #192115;
+  }
+  .table td,
+  th {
+    border: 1px solid #192115;
+    text-align: center;
+    font-size: 1rem;
+  }
 }

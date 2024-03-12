@@ -99,9 +99,9 @@ async function update(data) {
 
             console.log(items.itemsToDelete);
           }
+
           return getById(result.id);
         } catch (err) {
-          //	await Vehicle.destroy({ where: { id: vehicle.id } });
           throw err + 'çlçl';
         }
       })

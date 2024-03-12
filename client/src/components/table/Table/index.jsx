@@ -8,6 +8,21 @@ export default function Table({ columns, data, options }) {
   const [value, setValue] = useState({});
   const [tableRow, setTRow] = useState();
 
+  // Utilizando o hook useTable e passando as colunas com os dados.
+  // É retornado para a gente todas as informações necessárias para
+  // montar a tabela.
+  const {
+    getTableProps, // propriedades da tabela
+    getTableBodyProps, // propriedades do corpo da tabela
+    headerGroups, // os valores de agrupamento de tabela, caso sua tabela use
+    rows, // linhas da tabela baseado nos dados e colunas
+    prepareRow, // Prepara a linha (Essa função deve ser chamada para cada linha)
+  } = useTable({
+    columns,
+    data,
+    initialState: { hiddenColumns: ['id'] },
+  });
+
   function changeRowColor(clickedRow) {
     // Change row color for table default color
     if (
@@ -23,20 +38,7 @@ export default function Table({ columns, data, options }) {
     //Get the row that was clicked on.
     setTRow(clickedRow);
   }
-  // Utilizando o hook useTable e passando as colunas com os dados.
-  // É retornado para a gente todas as informações necessárias para
-  // montar a tabela.
-  const {
-    getTableProps, // propriedades da tabela
-    getTableBodyProps, // propriedades do corpo da tabela
-    headerGroups, // os valores de agrupamento de tabela, caso sua tabela use
-    rows, // linhas da tabela baseado nos dados e colunas
-    prepareRow, // Prepara a linha (Essa função deve ser chamada para cada linha)
-  } = useTable({
-    columns,
-    data,
-    initialState: { hiddenColumns: ['id'] },
-  });
+
   /*
     Aqui renderizamos a nossa tabela.
     Como já sabemos, o React Table não possui nenhum comportamento visual, logo,

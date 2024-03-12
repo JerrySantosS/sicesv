@@ -1,8 +1,11 @@
-const Item = require('../models/item');
-const rules = require('../rules/itemRules');
-const { Op } = require('sequelize');
+const Item = require('../models/item'); // importa mode item
+const rules = require('../rules/itemRules'); // importa regras
+const { Op } = require('sequelize'); // função de filtro do Sequelize
 
 async function getAll() {
+  // retorna todas os itens do banco
+  // O sequelize faz uma solicitação SQL SELECT
+  // para todos os itens do banco
   return Item.findAll()
     .then((items) => {
       return items;

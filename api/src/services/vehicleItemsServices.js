@@ -1,6 +1,7 @@
 const Vehicle = require('../models/vehicle');
 const VehicleItems = require('../models/vehicleItems');
 const { rules } = require('../rules/vehicleItemsRules');
+const { Op } = require('sequelize');
 
 async function getByItem(id) {
   return await VehicleItems.findAll({ where: { ItemId: id } });
@@ -9,6 +10,13 @@ async function getByItem(id) {
 async function getByVehicle(id) {
   return await VehicleItems.findAll({
     where: { VehicleId: id },
+  });
+}
+
+async function getByVehicleItem(vehicleItem) {
+  return await VehicleItems.findOne({
+    where: { ItemId: vehicleItem.ItemId, VehicleId: vehicleItem.VehicleId },
+    paranoid: false,
   });
 }
 
@@ -31,13 +39,29 @@ async function create(data) {
 async function createMany(data) {
   for await (let vehicleItem of data) {
     try {
-      await rules(vehicleItem);
+      const result = await rules(vehicleItem);
 
-      VehicleItems.create(vehicleItem).catch((err) => {
-        throw `VehicleItems Error: DB Error: ${err}`;
-      });
+      if (result.ItemId) {
+        const exist = await getByVehicleItem(vehicleItem);
+        if (exist && exist.ItemId) {
+          VehicleItems.restore({
+            where: {
+              ItemId: vehicleItem.ItemId,
+              VehicleId: vehicleItem.VehicleId,
+            },
+          }).catch((err) => {
+            throw `vehicleItemsServices: DB Error1: ${err}`;
+          });
+        } else {
+          VehicleItems.create(vehicleItem).catch((err) => {
+            throw `VehicleItems Error: DB Error2: ${err}`;
+          });
+        }
+      } else {
+        throw `DB Error3: ${result}`;
+      }
     } catch (err) {
-      throw err + 'VehicleItems Error: DB Error:';
+      throw err + 'VehicleItems Error: DB Error4:';
     }
   }
 }
@@ -74,6 +98,7 @@ async function removeMany(data) {
 module.exports = {
   getByItem,
   getByVehicle,
+  getByVehicleItem,
   create,
   createMany,
   update,

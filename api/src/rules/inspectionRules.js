@@ -17,8 +17,6 @@ function rules({
   RouteId,
   DriverId,
   VehicleId,
-  comment,
-  checkLists,
   ...rest
 }) {
   let issues = [];
@@ -43,10 +41,6 @@ function rules({
     }
   }
 
-  if (!generalRules.stringValidate(comment, 0, 150)) {
-    issues.push('Route must be a string between 2 and 255 characters.');
-  }
-
   if (!routeRules.isId(RouteId))
     issues.push(`route with id ${id} does not exist.`);
 
@@ -67,7 +61,6 @@ function rules({
       RouteId,
       DriverId,
       VehicleId,
-      comment,
     };
   }
 }
@@ -80,7 +73,6 @@ async function create({
   RouteId,
   DriverId,
   VehicleId,
-  comment,
   ...rest
 }) {
   return rules({
@@ -91,7 +83,6 @@ async function create({
     RouteId,
     DriverId,
     VehicleId,
-    comment,
   });
 }
 
@@ -104,7 +95,6 @@ async function update({
   RouteId,
   DriverId,
   VehicleId,
-  comment,
   ...rest
 }) {
   if (await isId(id)) {
@@ -116,7 +106,6 @@ async function update({
       RouteId,
       DriverId,
       VehicleId,
-      comment,
     });
 
     if (result.RouteId) {

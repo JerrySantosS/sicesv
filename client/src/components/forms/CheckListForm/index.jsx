@@ -34,7 +34,7 @@ const CheckListForm = ({ inspection, handleInspection, vehicle }) => {
   };
 
   return (
-    <section>
+    <section className={styles.section_container}>
       {vehicle.Items.map((item) => {
         return <CheckItem item={item} handleCheckLists={handleCheckLists} />;
       })}
